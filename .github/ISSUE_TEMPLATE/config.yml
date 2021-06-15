@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+    - name: Ask a Question
+      url: https://github.com/rxcod9/joy-voyager-api/discussions/new?category=q-a
+      about: Ask the community for help
+    - name: Feature Request
+      url: https://github.com/rxcod9/joy-voyager-api/discussions/new?category=ideas
+      about: Share ideas for new features
+    - name: Bug Report
+      url: https://github.com/rxcod9/joy-voyager-api/issues/new
+      about: Report a reproducable bug
