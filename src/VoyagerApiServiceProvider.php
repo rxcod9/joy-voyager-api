@@ -72,7 +72,6 @@ class VoyagerApiServiceProvider extends ServiceProvider
         $this->registerCommands();
     }
 
-
     /**
      * Register publishables.
      *
