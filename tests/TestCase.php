@@ -19,11 +19,11 @@ abstract class TestCase extends Orchestra
 
     protected function loadEnvironmentVariables()
     {
-        if (! file_exists(__DIR__.'/../.env')) {
+        if (!file_exists(__DIR__ . '/../.env')) {
             return;
         }
 
-        $dotEnv = Dotenv::createImmutable(__DIR__.'/..');
+        $dotEnv = Dotenv::createImmutable(__DIR__ . '/..');
 
         $dotEnv->load();
     }
@@ -35,7 +35,7 @@ abstract class TestCase extends Orchestra
      */
     protected function getPackageProviders($app)
     {
-        $serviceProviders =  [
+        $serviceProviders = [
             ApiServiceProvider::class,
         ];
 
@@ -49,9 +49,9 @@ abstract class TestCase extends Orchestra
     {
         config()->set('database.default', 'sqlite');
         config()->set('database.connections.sqlite', [
-            'driver' => 'sqlite',
+            'driver'   => 'sqlite',
             'database' => ':memory:',
-            'prefix' => '',
+            'prefix'   => '',
         ]);
     }
 
