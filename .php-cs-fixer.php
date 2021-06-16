@@ -15,18 +15,17 @@ $finder = PhpCsFixer\Finder::create()
 
 $config = new PhpCsFixer\Config();
 return $config->setRules([
-    '@PSR2'                                     => true,
-    'array_indentation'                         => true,
-    'array_syntax'                              => ['syntax' => 'short'],
-    'combine_consecutive_unsets'                => true,
-    'class_attributes_separation' => ['elements' => ['method' => 'one']],
+    '@PSR2'                                  => true,
+    'array_indentation'                      => true,
+    'array_syntax'                           => ['syntax' => 'short'],
+    'combine_consecutive_unsets'             => true,
+    'class_attributes_separation'            => ['elements' => ['method' => 'one']],
     'multiline_whitespace_before_semicolons' => true,
-    'single_quote'                              => true,
-
-    'binary_operator_spaces' => [
-        "operators" => [
-            "=>" => "align_single_space_minimal",
-            "=" => "align_single_space_minimal",
+    'single_quote'                           => true,
+    'binary_operator_spaces'                 => [
+        'operators' => [
+            '=>' => 'align_single_space_minimal',
+            '='  => 'align_single_space_minimal',
         ],
     ],
     // 'blank_line_after_opening_tag' => true,
@@ -36,12 +35,12 @@ return $config->setRules([
     ],
     // 'cast_spaces' => true,
     // 'class_definition' => array('singleLine' => true),
-    'concat_space'            => ['spacing' => 'one'],
-    'declare_equal_normalize' => true,
-    'function_typehint_space' => true,
-    'single_line_comment_style'   => ['comment_types' => ['hash']],
-    'include'                 => true,
-    'lowercase_cast'          => true,
+    'concat_space'              => ['spacing' => 'one'],
+    'declare_equal_normalize'   => true,
+    'function_typehint_space'   => true,
+    'single_line_comment_style' => ['comment_types' => ['hash']],
+    'include'                   => true,
+    'lowercase_cast'            => true,
     // 'native_function_casing' => true,
     // 'new_with_braces' => true,
     // 'no_blank_lines_after_class_opening' => true,
