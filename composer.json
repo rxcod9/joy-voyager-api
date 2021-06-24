@@ -1,6 +1,6 @@
 {
     "name": "joy/voyager-api",
-    "description": "Joy VoyagerApi",
+    "description": "This Laravel/Voyager module adds REST Api with swagger support to Voyager.",
     "keywords": [
         "joy",
         "api",
