@@ -67,7 +67,7 @@ class VoyagerBaseController extends TCGVoyagerBaseController
         $dataType = Voyager::model('DataType')->where('slug', '=', $slug)->first();
 
         // Check permission
-        // $this->authorize('browse', app($dataType->model_name));
+        $this->authorize('browse', app($dataType->model_name));
 
         $getter = 'paginate';
 
@@ -87,7 +87,7 @@ class VoyagerBaseController extends TCGVoyagerBaseController
             }
 
             // Use withTrashed() if model uses SoftDeletes and if toggle is selected
-            if ($model && in_array(SoftDeletes::class, class_uses_recursive($model)) && optional(Auth::user())->can('delete', app($dataType->model_name))) {
+            if ($model && in_array(SoftDeletes::class, class_uses_recursive($model)) && Auth::user()->can('delete', app($dataType->model_name))) {
                 $usesSoftDeletes = true;
 
                 if ($request->get('showSoftDeleted')) {
@@ -154,7 +154,7 @@ class VoyagerBaseController extends TCGVoyagerBaseController
 
         // Define showCheckboxColumn
         $showCheckboxColumn = false;
-        if (optional(Auth::user())->can('delete', app($dataType->model_name))) {
+        if (Auth::user()->can('delete', app($dataType->model_name))) {
             $showCheckboxColumn = true;
         } else {
             foreach ($actions as $action) {
@@ -261,7 +261,7 @@ class VoyagerBaseController extends TCGVoyagerBaseController
         $this->removeRelationshipField($dataType, 'read');
 
         // Check permission
-        // $this->authorize('read', $dataTypeContent);
+        $this->authorize('read', $dataTypeContent);
 
         // Check if BREAD is Translatable
         $isModelTranslatable = is_bread_translatable($dataTypeContent);
@@ -329,7 +329,7 @@ class VoyagerBaseController extends TCGVoyagerBaseController
         $this->removeRelationshipField($dataType, 'edit');
 
         // Check permission
-        // $this->authorize('edit', $dataTypeContent);
+        $this->authorize('edit', $dataTypeContent);
 
         // Check if BREAD is Translatable
         $isModelTranslatable = is_bread_translatable($dataTypeContent);
@@ -374,7 +374,7 @@ class VoyagerBaseController extends TCGVoyagerBaseController
         $data = $query->findOrFail($id);
 
         // Check permission
-        // $this->authorize('edit', $data);
+        $this->authorize('edit', $data);
 
         // Validate fields with ajax
         $val = $this->validateBread($request->all(), $dataType->editRows, $dataType->name, $id)->validate();
@@ -428,7 +428,7 @@ class VoyagerBaseController extends TCGVoyagerBaseController
         $dataType = Voyager::model('DataType')->where('slug', '=', $slug)->first();
 
         // Check permission
-        // $this->authorize('add', app($dataType->model_name));
+        $this->authorize('add', app($dataType->model_name));
 
         $dataTypeContent = (strlen($dataType->model_name) != 0)
                             ? new $dataType->model_name()
@@ -478,7 +478,7 @@ class VoyagerBaseController extends TCGVoyagerBaseController
         $dataType = Voyager::model('DataType')->where('slug', '=', $slug)->first();
 
         // Check permission
-        // $this->authorize('add', app($dataType->model_name));
+        $this->authorize('add', app($dataType->model_name));
 
         // Validate fields with ajax
         $val  = $this->validateBread($request->all(), $dataType->addRows)->validate();
@@ -536,7 +536,7 @@ class VoyagerBaseController extends TCGVoyagerBaseController
             $data = call_user_func([$dataType->model_name, 'findOrFail'], $id);
 
             // Check permission
-            // $this->authorize('delete', $data);
+            $this->authorize('delete', $data);
 
             $model = app($dataType->model_name);
             if (!($model && in_array(SoftDeletes::class, class_uses_recursive($model)))) {
@@ -572,7 +572,7 @@ class VoyagerBaseController extends TCGVoyagerBaseController
 
         // Check permission
         $model = app($dataType->model_name);
-        // $this->authorize('delete', $model);
+        $this->authorize('delete', $model);
 
         // Get record
         $query = $model->withTrashed();

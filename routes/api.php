@@ -25,7 +25,7 @@ Route::group(['as' => 'joy-voyager-api.'], function () {
 
     $namespacePrefix = '\\' . config('joy-voyager-api.controllers.namespace') . '\\';
 
-    // Route::group(['middleware' => 'auth:api'], function () use ($namespacePrefix) {
+    Route::group(['middleware' => 'auth:api'], function () use ($namespacePrefix) {
         // event(new RoutingAdmin()); @deprecated
 
         Route::get('profile', ['uses' => $namespacePrefix . 'VoyagerUserController@profile', 'as' => 'profile']);
@@ -50,7 +50,7 @@ Route::group(['as' => 'joy-voyager-api.'], function () {
         }
 
         // event(new RoutingAdminAfter()); @deprecated
-    // });
+    });
 
     // event(new RoutingAfter()); @deprecated
 });
