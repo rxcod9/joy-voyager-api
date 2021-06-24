@@ -35,7 +35,7 @@ class VoyagerUserController extends VoyagerBaseController
      *       description="Forbidden"
      *   )
      * )
-     * 
+     *
      * @OA\Schema(
      *    schema="User",
      *    @OA\Property(
