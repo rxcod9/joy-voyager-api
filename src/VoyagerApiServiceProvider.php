@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Joy\VoyagerApi;
 
 use Illuminate\Support\Facades\Route;
@@ -11,7 +13,7 @@ use Illuminate\Support\ServiceProvider;
  * @category  Package
  * @package   JoyVoyagerApi
  * @author    Ramakant Gangwar <gangwar.ramakant@gmail.com>
- * @copyright 2020 Copyright (c) Ramakant Gangwar (https://github.com/rxcod9)
+ * @copyright 2021 Copyright (c) Ramakant Gangwar (https://github.com/rxcod9)
  * @license   http://github.com/rxcod9/joy-voyager-api/blob/main/LICENSE New BSD License
  * @link      https://github.com/rxcod9/joy-voyager-api
  */
@@ -55,7 +57,7 @@ class VoyagerApiServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes(): void
     {
-        Route::prefix('api')
+        Route::prefix(config('joy-voyager-api.route_prefix', 'api'))
             ->middleware('api')
             ->group(__DIR__ . '/../routes/api.php');
     }
@@ -68,6 +70,8 @@ class VoyagerApiServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/voyager-api.php', 'joy-voyager-api');
+
+        $this->registerResources();
 
         $this->registerCommands();
     }
@@ -90,6 +94,11 @@ class VoyagerApiServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../resources/lang' => resource_path('lang/vendor/joy-voyager-api'),
         ], 'translations');
+    }
+
+    protected function registerResources(): void
+    {
+        //
     }
 
     protected function registerCommands(): void

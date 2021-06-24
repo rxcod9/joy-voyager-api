@@ -3,7 +3,11 @@
     "description": "Joy VoyagerApi",
     "keywords": [
         "joy",
+        "api",
         "voyager-api",
+        "joy-voyager-api",
+        "swagger",
+        "swagger-ui",
         "cms",
         "voyager",
         "laravel"
@@ -52,7 +56,8 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Joy\\VoyagerApi\\VoyagerApiServiceProvider"
+                "Joy\\VoyagerApi\\VoyagerApiServiceProvider",
+                "Joy\\VoyagerApi\\ResourcesServiceProvider"
             ]
         }
     },
