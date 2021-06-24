@@ -6,6 +6,7 @@ namespace Joy\VoyagerApi;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Joy\VoyagerApi\Console\Commands;
 
 /**
  * Class VoyagerApiServiceProvider
@@ -85,6 +86,7 @@ class VoyagerApiServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__ . '/../config/voyager-api.php' => config_path('joy-voyager-api.php'),
+            __DIR__ . '/../config/l5-swagger.php'  => config_path('l5-swagger.php'),
         ], 'config');
 
         $this->publishes([
@@ -103,6 +105,6 @@ class VoyagerApiServiceProvider extends ServiceProvider
 
     protected function registerCommands(): void
     {
-        //
+        $this->commands(Commands\GenerateDocsCommand::class);
     }
 }

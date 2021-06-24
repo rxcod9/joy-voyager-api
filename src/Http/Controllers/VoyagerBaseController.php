@@ -21,6 +21,19 @@ use TCG\Voyager\Http\Controllers\VoyagerBaseController as TCGVoyagerBaseControll
 class VoyagerBaseController extends TCGVoyagerBaseController
 {
     /**
+     * @OA\Info(
+     *      version="1.0.0",
+     *      title=APP_NAME,
+     *      description="Api documentation"
+     * )
+     *
+     * @OA\Server(
+     *      url=L5_SWAGGER_CONST_HOST,
+     *      description="Primary API Server"
+     * )
+     */
+
+    /**
      * Create a new instance
      */
     public function __construct()
@@ -305,6 +318,8 @@ class VoyagerBaseController extends TCGVoyagerBaseController
             $dataType->editRows[$key]['col_width'] = isset($row->details->width) ? $row->details->width : 100;
         }
 
+        $rows = $dataType->editRows;
+
         // If a column has a relationship associated with it, we do not want to show that field
         $this->removeRelationshipField($dataType, 'edit');
 
@@ -327,6 +342,7 @@ class VoyagerBaseController extends TCGVoyagerBaseController
 
         return $resource::make($dataTypeContent)->additional(compact(
             // 'dataType', // @TODO
+            // 'rows', // @TODO
             'isModelTranslatable',
         ));
     }
@@ -417,6 +433,8 @@ class VoyagerBaseController extends TCGVoyagerBaseController
             $dataType->addRows[$key]['col_width'] = $row->details->width ?? 100;
         }
 
+        $rows = $dataType->addRows;
+
         // If a column has a relationship associated with it, we do not want to show that field
         $this->removeRelationshipField($dataType, 'add');
 
@@ -436,6 +454,7 @@ class VoyagerBaseController extends TCGVoyagerBaseController
 
         return $resource::make($dataTypeContent)->additional(compact(
             // 'dataType', // @TODO
+            // 'rows', // @TODO
             'isModelTranslatable',
         ));
     }

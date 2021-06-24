@@ -22,6 +22,8 @@
     }],
     "require": {
         "php": "^7.3|^8.0",
+        "cebe/php-openapi": "^1.5",
+        "darkaonline/l5-swagger": "^8.0",
         "illuminate/support": "^7|^8",
         "larapack/hooks": "^1.0.5",
         "tcg/voyager": "^1.4"

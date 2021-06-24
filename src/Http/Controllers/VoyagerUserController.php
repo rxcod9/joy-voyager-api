@@ -10,6 +10,54 @@ use TCG\Voyager\Facades\Voyager;
 
 class VoyagerUserController extends VoyagerBaseController
 {
+    /**
+     * @OA\Get(
+     * path="/api/profile",
+     *   tags={"User"},
+     *   security={
+     *      {"token": {}},
+     *   },
+     *   summary="Profile",
+     *   operationId="user",
+     *   @OA\Response(
+     *      response=200,
+     *      description="Success",
+     *      @OA\JsonContent(
+     *         @OA\Property(property="user", type="object", ref="#/components/schemas/User"),
+     *      )
+     *   ),
+     *   @OA\Response(
+     *      response=401,
+     *       description="Unauthenticated"
+     *   ),
+     *   @OA\Response(
+     *       response=403,
+     *       description="Forbidden"
+     *   )
+     * )
+     * 
+     * @OA\Schema(
+     *    schema="User",
+     *    @OA\Property(
+     *       property="id",
+     *       type="integer",
+     *       readOnly="true",
+     *       example="1"
+     *    ),
+     *    @OA\Property(
+     *       property="name",
+     *       type="string",
+     *       description="User Name"
+     *    ),
+     *    @OA\Property(
+     *       property="email",
+     *       type="string",
+     *       format="email",
+     *       description="User unique email address",
+     *       example="user@gmail.com"
+     *    )
+     * )
+     */
     public function profile(Request $request)
     {
         $route    = '';
