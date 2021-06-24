@@ -31,6 +31,11 @@ class VoyagerBaseController extends TCGVoyagerBaseController
      *      url=L5_SWAGGER_CONST_HOST,
      *      description="Primary API Server"
      * )
+     *
+     * @OA\Server(
+     *      url=L5_SWAGGER_CONST_HOST2,
+     *      description="Another API Server"
+     * )
      */
 
     /**
