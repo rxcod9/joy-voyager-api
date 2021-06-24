@@ -25,7 +25,7 @@ By 🐼 [Ramakant Gangwar](https://github.com/rxcod9).
 composer require joy/voyager-api
 
 # 2. Publish
-php artisan vendor:publish --provider="Joy\VoyagerApi\VoyagerApiServiceProvider"
+php artisan vendor:publish --provider="Joy\VoyagerApi\VoyagerApiServiceProvider" --force
 
 # 3. Generate Swagger Docs Json
 php artisan joy-voyager-api:l5-swagger:generate
