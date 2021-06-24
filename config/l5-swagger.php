@@ -23,7 +23,7 @@ return [
                 /*
                  * File name of the generated json documentation file
                 */
-                'joy_voyager_api_docs_json' => 'jov-voyager-api-docs.json',
+                'joy_voyager_api_docs_json' => 'joy-voyager-api-docs.json',
 
                 /*
                  * File name of the generated YAML documentation file
