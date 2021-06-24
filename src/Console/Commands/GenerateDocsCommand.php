@@ -210,7 +210,7 @@ class GenerateDocsCommand extends Command
             'summary'     => $name . ' create',
             'operationId' => Str::snake($name) . '_create',
             // 'parameters'  => $this->createParameters($dataType),
-            'responses'   => [
+            'responses' => [
                 200 => [
                     'description' => 'Success',
                     'content'     => [
