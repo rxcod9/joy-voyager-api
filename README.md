@@ -1,6 +1,6 @@
 # Joy VoyagerApi
 
-This [Laravel](https://laravel.com/)/[Voyager](https://voyager.devdojo.com/) module adds Yajra async/ajax DataTable to Voyager.
+This [Laravel](https://laravel.com/)/[Voyager](https://voyager.devdojo.com/) module adds REST Api with swagger support to Voyager.
 
 By 🐼 [Ramakant Gangwar](https://github.com/rxcod9).
 
