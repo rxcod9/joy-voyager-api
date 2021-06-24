@@ -45,9 +45,9 @@ Installation generates.
 
 In order to override views delivered by Voyager DataTable, copy contents from ``vendor/joy/voyager-api/resources/views`` to the ``views/vendor/joy-voyager-api`` directory of your Laravel installation. -->
 
-<!-- ## Working Example
+## Working Example
 
-You can try laravel demo example from [https://github.com/rxcod9/joy-voyager-api-laravel-demo](https://github.com/rxcod9/joy-voyager-api-laravel-demo). -->
+You can try laravel demo here [https://joy-voyager-api.herokuapp.com/api/documentation](https://joy-voyager-api.herokuapp.com/api/documentation).
 
 ## Documentation
 
