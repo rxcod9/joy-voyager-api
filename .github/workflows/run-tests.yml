@@ -18,8 +18,10 @@ jobs:
                 include:
                     - laravel: 8.*
                       testbench: 6.*
+                      passport: 10.*
                     - laravel: 7.*
                       testbench: 5.*
+                      passport: 9.*
 
         name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }}
 
@@ -44,7 +46,7 @@ jobs:
 
             - name: Install dependencies
               run: |
-                  composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
+                  composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" "laravel/passport:${{ matrix.passport }}" --no-interaction --no-update
                   composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
 
             - name: Execute tests
