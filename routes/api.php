@@ -28,8 +28,6 @@ Route::group(['as' => 'joy-voyager-api.'], function () {
     Route::group(['middleware' => 'auth:api'], function () use ($namespacePrefix) {
         // event(new RoutingAdmin()); @deprecated
 
-        Route::get('profile', ['uses' => $namespacePrefix . 'VoyagerUserController@profile', 'as' => 'profile']);
-
         try {
             foreach (Voyager::model('DataType')::all() as $dataType) {
                 // api_controller
