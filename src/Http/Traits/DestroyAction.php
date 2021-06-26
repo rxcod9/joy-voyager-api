@@ -10,7 +10,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use TCG\Voyager\Events\BreadDataDeleted;
 use TCG\Voyager\Facades\Voyager;
 
-class DestroyAction
+trait DestroyAction
 {
     //***************************************
     //                _____

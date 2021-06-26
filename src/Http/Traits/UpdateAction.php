@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use TCG\Voyager\Events\BreadDataUpdated;
 use TCG\Voyager\Facades\Voyager;
 
-class UpdateAction
+trait UpdateAction
 {
     // POST BR(E)AD
     public function update(Request $request, $id)

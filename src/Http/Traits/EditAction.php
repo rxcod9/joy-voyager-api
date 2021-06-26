@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use TCG\Voyager\Facades\Voyager;
 
-class EditAction
+trait EditAction
 {
     //***************************************
     //                ______

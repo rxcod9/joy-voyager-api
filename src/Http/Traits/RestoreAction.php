@@ -9,7 +9,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use TCG\Voyager\Events\BreadDataRestored;
 use TCG\Voyager\Facades\Voyager;
 
-class RestoreAction
+trait RestoreAction
 {
     public function restore(Request $request, $id)
     {

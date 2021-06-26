@@ -7,7 +7,7 @@ namespace Joy\VoyagerApi\Http\Traits;
 use Illuminate\Http\Request;
 use TCG\Voyager\Facades\Voyager;
 
-class CreateAction
+trait CreateAction
 {
     //***************************************
     //

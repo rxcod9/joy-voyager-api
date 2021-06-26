@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use TCG\Voyager\Events\BreadDataAdded;
 use TCG\Voyager\Facades\Voyager;
 
-class StoreAction
+trait StoreAction
 {
     /**
      * POST BRE(A)D - Store data.

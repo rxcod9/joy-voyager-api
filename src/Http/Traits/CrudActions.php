@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Joy\VoyagerApi\Http\Traits;
 
-class CrudActions
+trait CrudActions
 {
     use IndexAction;
     use ShowAction;

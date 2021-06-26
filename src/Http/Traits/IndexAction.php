@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use TCG\Voyager\Facades\Voyager;
 
-class IndexAction
+trait IndexAction
 {
     //***************************************
     //               ____
