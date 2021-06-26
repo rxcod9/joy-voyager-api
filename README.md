@@ -4,7 +4,7 @@ This [Laravel](https://laravel.com/)/[Voyager](https://voyager.devdojo.com/) mod
 
 By 🐼 [Ramakant Gangwar](https://github.com/rxcod9).
 
-![Screenshot](https://raw.githubusercontent.com/rxcod9/joy-voyager-api/main/cover.jpg)
+[![Screenshot](https://raw.githubusercontent.com/rxcod9/joy-voyager-api/main/cover.jpg)](https://joy-voyager-api.herokuapp.com/api/documentation)
 
 [![Latest Version](https://img.shields.io/github/v/release/rxcod9/joy-voyager-api?style=flat-square)](https://github.com/rxcod9/joy-voyager-api/releases)
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/rxcod9/joy-voyager-api/run-tests?label=tests)
