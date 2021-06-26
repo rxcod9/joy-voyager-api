@@ -1,9 +1,9 @@
 <?php
 
-namespace Joy\Api\Tests;
+namespace Joy\VoyagerApi\Tests;
 
 use Dotenv\Dotenv;
-use Joy\Api\ApiServiceProvider;
+use Joy\VoyagerApi\VoyagerApiServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
@@ -36,7 +36,7 @@ abstract class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         $serviceProviders = [
-            ApiServiceProvider::class,
+            VoyagerApiServiceProvider::class,
         ];
 
         return $serviceProviders;

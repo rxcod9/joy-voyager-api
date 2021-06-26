@@ -40,7 +40,7 @@ return [
                 */
                 'annotations' => [
                     base_path('app'),
-                    base_path('vendor/joy/voyager-api/src'),
+                    base_path('vendor/joy/*api*/src'),
                 ],
 
             ],

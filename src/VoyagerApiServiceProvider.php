@@ -72,8 +72,6 @@ class VoyagerApiServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/voyager-api.php', 'joy-voyager-api');
 
-        $this->registerResources();
-
         $this->registerCommands();
     }
 
@@ -96,11 +94,6 @@ class VoyagerApiServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../resources/lang' => resource_path('lang/vendor/joy-voyager-api'),
         ], 'translations');
-    }
-
-    protected function registerResources(): void
-    {
-        //
     }
 
     protected function registerCommands(): void
