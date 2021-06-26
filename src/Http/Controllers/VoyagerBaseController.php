@@ -16,7 +16,7 @@ class VoyagerBaseController extends TCGVoyagerBaseController
      * @OA\Info(
      *      version="1.0.0",
      *      title=APP_NAME,
-     *      description="Api documentation"
+     *      description="Joy VoyagerApi module adds REST Api end points to Voyager with Passport and Swagger support https://github.com/rxcod9/joy-voyager-api."
      * )
      *
      * @OA\Server(

@@ -70,7 +70,7 @@ class GenerateDocsCommand extends Command
             'openapi' => '3.0.2',
             'info'    => [
                 'title'       => config('app.name', 'Joy Voyager Api'),
-                'description' => 'Api documentation',
+                'description' => 'Joy VoyagerApi module adds REST Api end points to Voyager with Passport and Swagger support https://github.com/rxcod9/joy-voyager-api.',
                 'version'     => '1.0.0',
             ],
             'servers' => [
