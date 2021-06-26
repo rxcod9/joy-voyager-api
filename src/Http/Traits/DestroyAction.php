@@ -68,6 +68,29 @@ trait DestroyAction
             event(new BreadDataDeleted($dataType, $data));
         }
 
+        $response = $this->overrideSendDestroyResponse(
+            $request,
+            $data
+        );
+        if ($response) {
+            return $response;
+        }
+
         return JsonResource::make($data);
+    }
+
+    /**
+     * Override send Destroy response.
+     *
+     * @param Request $request Request
+     * @param mixed   $data    Data
+     *
+     * @return mixed
+     */
+    protected function overrideSendDestroyResponse(
+        Request $request,
+        $data
+    ) {
+        //
     }
 }

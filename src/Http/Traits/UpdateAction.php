@@ -53,6 +53,14 @@ trait UpdateAction
 
         event(new BreadDataUpdated($dataType, $data));
 
+        $response = $this->overrideSendUpdateResponse(
+            $request,
+            $data
+        );
+        if ($response) {
+            return $response;
+        }
+
         $resourceClass = 'joy-voyager-api.json';
 
         if (app()->bound("joy-voyager-api.$slug.json")) {
@@ -61,10 +69,32 @@ trait UpdateAction
 
         $resource = app()->make($resourceClass);
 
-        return $resource::make($data)->additional([
-            'message'    => __('voyager::generic.successfully_updated') . " {$dataType->getTranslatedAttribute('display_name_singular')}",
-            'alert-type' => 'success',
-            'canBrowse'  => auth()->user()->can('browse', app($dataType->model_name)),
-        ]);
+        return $resource::make($data)
+            ->additional(
+                [
+                    'message' => __('voyager::generic.successfully_updated')
+                        . " {$dataType->getTranslatedAttribute('display_name_singular')}",
+                    'alert-type' => 'success',
+                    'canBrowse'  => auth()->user()->can(
+                        'browse',
+                        app($dataType->model_name)
+                    ),
+                ]
+            );
+    }
+
+    /**
+     * Override send Update response.
+     *
+     * @param Request $request Request
+     * @param mixed   $data    Data
+     *
+     * @return mixed
+     */
+    protected function overrideSendUpdateResponse(
+        Request $request,
+        $data
+    ) {
+        //
     }
 }

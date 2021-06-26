@@ -142,6 +142,14 @@ trait IndexAction
         // Define list of columns that can be sorted server side
         $sortableColumns = $this->getSortableColumns($dataType->browseRows);
 
+        $response = $this->overrideSendIndexResponse(
+            $request,
+            $dataTypeContent
+        );
+        if ($response) {
+            return $response;
+        }
+
         $resourceClass = 'joy-voyager-api.json-collection';
 
         if (app()->bound("joy-voyager-api.$slug.json-collection")) {
@@ -164,21 +172,39 @@ trait IndexAction
             ),
         ];
 
-        return $resourceCollection::make($dataTypeContent)->additional(compact(
-            'actions',  // @FIXME
-            // 'dataType', // @TODO
-            'isModelTranslatable',
-            // 'search',
-            'orderBy',
-            'orderColumn',
-            'sortableColumns',
-            'sortOrder',
-            // 'searchNames',
-            // 'isServerSide',
-            'defaultSearchKey',
-            'usesSoftDeletes',
-            'showSoftDeleted',
-            'showCheckboxColumn'
-        ));
+        return $resourceCollection::make($dataTypeContent)
+        ->additional(
+            compact(
+                'actions',  // @FIXME
+                // 'dataType', // @TODO
+                'isModelTranslatable',
+                // 'search',
+                'orderBy',
+                'orderColumn',
+                'sortableColumns',
+                'sortOrder',
+                // 'searchNames',
+                // 'isServerSide',
+                'defaultSearchKey',
+                'usesSoftDeletes',
+                'showSoftDeleted',
+                'showCheckboxColumn'
+            )
+        );
+    }
+
+    /**
+     * Override send Index response.
+     *
+     * @param Request $request         Request
+     * @param mixed   $dataTypeContent DataTypeContent
+     *
+     * @return mixed
+     */
+    protected function overrideSendIndexResponse(
+        Request $request,
+        $dataTypeContent
+    ) {
+        //
     }
 }

@@ -66,6 +66,14 @@ trait ShowAction
         // Eagerload Relations
         $this->eagerLoadRelations($dataTypeContent, $dataType, 'read', $isModelTranslatable);
 
+        $response = $this->overrideSendShowResponse(
+            $request,
+            $dataTypeContent
+        );
+        if ($response) {
+            return $response;
+        }
+
         $resourceClass = 'joy-voyager-api.json';
 
         if (app()->bound("joy-voyager-api.$slug.json")) {
@@ -74,10 +82,28 @@ trait ShowAction
 
         $resource = app()->make($resourceClass);
 
-        return $resource::make($dataTypeContent)->additional(compact(
-            // 'dataType', // @TODO
-            'isModelTranslatable',
-            'isSoftDeleted'
-        ));
+        return $resource::make($dataTypeContent)
+            ->additional(
+                compact(
+                    // 'dataType', // @TODO
+                    'isModelTranslatable',
+                    'isSoftDeleted'
+                )
+            );
+    }
+
+    /**
+     * Override send Show response.
+     *
+     * @param Request $request         Request
+     * @param mixed   $dataTypeContent DataTypeContent
+     *
+     * @return mixed
+     */
+    protected function overrideSendShowResponse(
+        Request $request,
+        $dataTypeContent
+    ) {
+        //
     }
 }

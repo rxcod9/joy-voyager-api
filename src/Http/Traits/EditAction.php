@@ -64,6 +64,14 @@ trait EditAction
         // Eagerload Relations
         $this->eagerLoadRelations($dataTypeContent, $dataType, 'edit', $isModelTranslatable);
 
+        $response = $this->overrideSendEditResponse(
+            $request,
+            $dataTypeContent
+        );
+        if ($response) {
+            return $response;
+        }
+
         $resourceClass = 'joy-voyager-api.json';
 
         if (app()->bound("joy-voyager-api.$slug.json")) {
@@ -72,10 +80,28 @@ trait EditAction
 
         $resource = app()->make($resourceClass);
 
-        return $resource::make($dataTypeContent)->additional(compact(
-            // 'dataType', // @TODO
-            // 'rows', // @TODO
-            'isModelTranslatable',
-        ));
+        return $resource::make($dataTypeContent)
+            ->additional(
+                compact(
+                    // 'dataType', // @TODO
+                    // 'rows', // @TODO
+                    'isModelTranslatable',
+                )
+            );
+    }
+
+    /**
+     * Override send Edit response.
+     *
+     * @param Request $request         Request
+     * @param mixed   $dataTypeContent DataTypeContent
+     *
+     * @return mixed
+     */
+    protected function overrideSendEditResponse(
+        Request $request,
+        $dataTypeContent
+    ) {
+        //
     }
 }

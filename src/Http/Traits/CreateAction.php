@@ -50,6 +50,14 @@ trait CreateAction
         // Eagerload Relations
         $this->eagerLoadRelations($dataTypeContent, $dataType, 'add', $isModelTranslatable);
 
+        $response = $this->overrideSendCreateResponse(
+            $request,
+            $dataTypeContent
+        );
+        if ($response) {
+            return $response;
+        }
+
         $resourceClass = 'joy-voyager-api.json';
 
         if (app()->bound("joy-voyager-api.$slug.json")) {
@@ -58,10 +66,28 @@ trait CreateAction
 
         $resource = app()->make($resourceClass);
 
-        return $resource::make($dataTypeContent)->additional(compact(
-            // 'dataType', // @TODO
-            // 'rows', // @TODO
-            'isModelTranslatable',
-        ));
+        return $resource::make($dataTypeContent)
+            ->additional(
+                compact(
+                    // 'dataType', // @TODO
+                    // 'rows', // @TODO
+                    'isModelTranslatable',
+                )
+            );
+    }
+
+    /**
+     * Override send Create response.
+     *
+     * @param Request $request         Request
+     * @param mixed   $dataTypeContent DataTypeContent
+     *
+     * @return mixed
+     */
+    protected function overrideSendCreateResponse(
+        Request $request,
+        $dataTypeContent
+    ) {
+        //
     }
 }

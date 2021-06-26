@@ -45,6 +45,29 @@ trait RestoreAction
             event(new BreadDataRestored($dataType, $data));
         }
 
+        $response = $this->overrideSendRestoreResponse(
+            $request,
+            $data
+        );
+        if ($response) {
+            return $response;
+        }
+
         return JsonResource::make($data);
+    }
+
+    /**
+     * Override send Restore response.
+     *
+     * @param Request $request Request
+     * @param mixed   $data    Data
+     *
+     * @return mixed
+     */
+    protected function overrideSendRestoreResponse(
+        Request $request,
+        $data
+    ) {
+        //
     }
 }

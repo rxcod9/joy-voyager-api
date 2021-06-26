@@ -33,6 +33,14 @@ trait StoreAction
 
         event(new BreadDataAdded($dataType, $data));
 
+        $response = $this->overrideSendStoreResponse(
+            $request,
+            $data
+        );
+        if ($response) {
+            return $response;
+        }
+
         if (!$request->has('_tagging')) {
             $resourceClass = 'joy-voyager-api.json';
 
@@ -42,13 +50,35 @@ trait StoreAction
 
             $resource = app()->make($resourceClass);
 
-            return $resource::make($data)->additional([
-                'message'    => __('voyager::generic.successfully_added_new') . " {$dataType->getTranslatedAttribute('display_name_singular')}",
-                'alert-type' => 'success',
-                'canBrowse'  => auth()->user()->can('browse', app($dataType->model_name)),
-            ]);
+            return $resource::make($data)
+                ->additional(
+                    [
+                        'message' => __('voyager::generic.successfully_added_new')
+                            . " {$dataType->getTranslatedAttribute('display_name_singular')}",
+                        'alert-type' => 'success',
+                        'canBrowse'  => auth()->user()->can(
+                            'browse',
+                            app($dataType->model_name)
+                        ),
+                    ]
+                );
         } else {
             return response()->json(['success' => true, 'data' => $data]);
         }
+    }
+
+    /**
+     * Override send Store response.
+     *
+     * @param Request $request Request
+     * @param mixed   $data    Data
+     *
+     * @return mixed
+     */
+    protected function overrideSendStoreResponse(
+        Request $request,
+        $data
+    ) {
+        //
     }
 }
