@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f8d8b2492fe2c015b1bde8260bb2efbf",
+    "content-hash": "23021f68b814f49772a1159c87d0a76b",
     "packages": [
         {
             "name": "arrilot/laravel-widgets",
@@ -1799,6 +1799,90 @@
             "time": "2019-11-02T09:15:47+00:00"
         },
         {
+            "name": "joy/core",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rxcod9/joy-core.git",
+                "reference": "319532c73e0645e6cf98ef2f996e987765ba7f91"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rxcod9/joy-core/zipball/319532c73e0645e6cf98ef2f996e987765ba7f91",
+                "reference": "319532c73e0645e6cf98ef2f996e987765ba7f91",
+                "shasum": ""
+            },
+            "require": {
+                "cebe/php-openapi": "^1.5",
+                "darkaonline/l5-swagger": "^8.0",
+                "illuminate/support": "^7|^8",
+                "larapack/hooks": "^1.0.5",
+                "php": "^7.3|^8.0",
+                "tcg/voyager": "^1.4"
+            },
+            "require-dev": {
+                "doctrine/dbal": "^2.5.2",
+                "ext-pdo_sqlite": "*",
+                "ext-zip": "*",
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "guzzlehttp/guzzle": "^6.3|^7.0",
+                "mockery/mockery": "^1.3",
+                "orchestra/testbench": "^5.0|^6.0",
+                "phpunit/phpunit": "^9.1"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Joy\\Core\\CoreServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Joy\\Core\\": "src"
+                },
+                "files": [
+                    "src/helper.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ramakant Gangwar",
+                    "email": "gangwar.ramakant@gmail.com",
+                    "homepage": "https://github.com/rxcod9",
+                    "role": "Tech Lead"
+                }
+            ],
+            "description": "This Laravel/Voyager module adds Core support to Voyager.",
+            "homepage": "https://github.com/rxcod9/joy-core",
+            "keywords": [
+                "cms",
+                "core",
+                "joy",
+                "joy-core",
+                "laravel",
+                "voyager",
+                "voyager-core"
+            ],
+            "support": {
+                "issues": "https://github.com/rxcod9/joy-core/issues",
+                "source": "https://github.com/rxcod9/joy-core/tree/main"
+            },
+            "funding": [
+                {
+                    "url": "https://www.patreon.com/ramakant",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2021-06-28T22:50:38+00:00"
+        },
+        {
             "name": "joy/voyager-api-auth",
             "version": "dev-main",
             "source": {
@@ -1883,6 +1967,91 @@
                 }
             ],
             "time": "2021-06-28T00:21:50+00:00"
+        },
+        {
+            "name": "joy/voyager-core",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rxcod9/joy-voyager-core.git",
+                "reference": "ca4de9556ed91e4475c590cfd913ad29634e8619"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rxcod9/joy-voyager-core/zipball/ca4de9556ed91e4475c590cfd913ad29634e8619",
+                "reference": "ca4de9556ed91e4475c590cfd913ad29634e8619",
+                "shasum": ""
+            },
+            "require": {
+                "cebe/php-openapi": "^1.5",
+                "darkaonline/l5-swagger": "^8.0",
+                "illuminate/support": "^7|^8",
+                "joy/core": "dev-main",
+                "larapack/hooks": "^1.0.5",
+                "php": "^7.3|^8.0",
+                "tcg/voyager": "^1.4"
+            },
+            "require-dev": {
+                "doctrine/dbal": "^2.5.2",
+                "ext-pdo_sqlite": "*",
+                "ext-zip": "*",
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "guzzlehttp/guzzle": "^6.3|^7.0",
+                "mockery/mockery": "^1.3",
+                "orchestra/testbench": "^5.0|^6.0",
+                "phpunit/phpunit": "^9.1"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Joy\\VoyagerCore\\VoyagerCoreServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Joy\\VoyagerCore\\": "src"
+                },
+                "files": [
+                    "src/helper.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ramakant Gangwar",
+                    "email": "gangwar.ramakant@gmail.com",
+                    "homepage": "https://github.com/rxcod9",
+                    "role": "Tech Lead"
+                }
+            ],
+            "description": "This Laravel/Voyager module adds VoyagerCore support to Voyager.",
+            "homepage": "https://github.com/rxcod9/joy-voyager-core",
+            "keywords": [
+                "cms",
+                "joy",
+                "joy-voyager-core",
+                "laravel",
+                "voyager",
+                "voyager-core",
+                "voyager-voyager-core"
+            ],
+            "support": {
+                "issues": "https://github.com/rxcod9/joy-voyager-core/issues",
+                "source": "https://github.com/rxcod9/joy-voyager-core/tree/main"
+            },
+            "funding": [
+                {
+                    "url": "https://www.patreon.com/ramakant",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2021-06-28T23:01:20+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
@@ -10576,7 +10745,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "joy/voyager-api-auth": 20
+        "joy/voyager-api-auth": 20,
+        "joy/voyager-core": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
