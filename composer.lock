@@ -1804,12 +1804,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/rxcod9/joy-voyager-api-auth.git",
-                "reference": "f21d656efa53a98342840bbafd9891cebd69533b"
+                "reference": "b1c2f57bd46b25b91ac996fba68b89af20574823"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rxcod9/joy-voyager-api-auth/zipball/f21d656efa53a98342840bbafd9891cebd69533b",
-                "reference": "f21d656efa53a98342840bbafd9891cebd69533b",
+                "url": "https://api.github.com/repos/rxcod9/joy-voyager-api-auth/zipball/b1c2f57bd46b25b91ac996fba68b89af20574823",
+                "reference": "b1c2f57bd46b25b91ac996fba68b89af20574823",
                 "shasum": ""
             },
             "require": {
@@ -1876,7 +1876,13 @@
                 "issues": "https://github.com/rxcod9/joy-voyager-api-auth/issues",
                 "source": "https://github.com/rxcod9/joy-voyager-api-auth/tree/main"
             },
-            "time": "2021-06-26T20:49:17+00:00"
+            "funding": [
+                {
+                    "url": "https://www.patreon.com/ramakant",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2021-06-28T00:21:50+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
