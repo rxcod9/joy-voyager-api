@@ -23,7 +23,7 @@
     "require": {
         "php": "^7.3|^8.0",
         "cebe/php-openapi": "^1.5",
-        "darkaonline/l5-swagger": "^8.0",
+        "darkaonline/l5-swagger": "^7.0|^8.0",
         "illuminate/support": "^7|^8",
         "joy/voyager-api-auth": "dev-main",
         "joy/voyager-core": "dev-main",
