@@ -482,6 +482,7 @@ class GenerateDocsCommand extends Command
             ]),
             'summary'     => $name . ' update',
             'operationId' => Str::snake($name) . '_update',
+            'parameters'  => $parameters,
             'requestBody' => [
                 '$ref' => '#/components/requestBodies/' . $updateName,
             ],
