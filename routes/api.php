@@ -40,6 +40,7 @@ Route::group(['as' => 'joy-voyager-api.'], function () {
                 Route::get($dataType->slug . '/relation', $breadController . '@relation')->name($dataType->slug . '.relation');
                 Route::post($dataType->slug . '/remove', $breadController . '@remove_media')->name($dataType->slug . '.media.remove');
                 Route::post($dataType->slug . '/{id}', $breadController . '@update')->name($dataType->slug . '.postUpdate');
+                Route::addRoute(['post', 'put'], $dataType->slug . '/{id}/single/{field?}', $breadController . '@singleUpdate')->name($dataType->slug . '.single-update');
                 Route::resource($dataType->slug, $breadController, ['parameters' => [$dataType->slug => 'id']]);
             }
         } catch (\InvalidArgumentException $e) {

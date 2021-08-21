@@ -112,7 +112,7 @@ class GenerateDocsCommand extends Command
     ): void {
         $updateMethod = 'put';
 
-        if (hasFile($dataType->{'editRows'})) {
+        if (hasFile($dataType->editRows)) {
             $updateMethod = 'post';
         }
 
@@ -127,6 +127,9 @@ class GenerateDocsCommand extends Command
             'get'         => $this->showOperation($dataType),
             $updateMethod => $this->updateOperation($dataType),
             'delete'      => $this->deleteOperation($dataType),
+        ]);
+        $paths['/api/' . $dataType->slug . '/{id}/single/{field}'] = new PathItem([
+            $updateMethod => $this->singleUpdateOperation($dataType),
         ]);
         $paths['/api/' . $dataType->slug . '/{id}/edit'] = new PathItem([
             'get' => $this->editOperation($dataType),
@@ -519,6 +522,91 @@ class GenerateDocsCommand extends Command
     }
 
     /**
+     * Single Update operation.
+     */
+    protected function singleUpdateOperation($dataType): Operation
+    {
+        $parameters       = [];
+        $name             = $dataType->slug;
+        $readName         = 'Voyager' . Str::studly($dataType->name) . 'ReadResource';
+        $singleUpdateName = 'Voyager' . Str::studly($dataType->name) . 'SingleUpdateRequest';
+
+        $parameters[] = [
+            'name'     => 'id',
+            'in'       => 'path',
+            'required' => true,
+            'schema'   => [
+                'type' => 'integer',
+            ],
+        ];
+
+        $parameters[] = [
+            'name'     => 'field',
+            'in'       => 'path',
+            'required' => false,
+            'schema'   => [
+                'type'     => 'string',
+                'nullable' => true,
+                'enum'     => $dataType->editRows->pluck('field'),
+            ],
+        ];
+
+        $parameters[] = [
+            'name'     => 'fields[]',
+            'in'       => 'query',
+            'required' => false,
+            'schema'   => [
+                'type'  => 'array',
+                'items' => [
+                    'type' => 'string',
+                    'enum' => $dataType->editRows->pluck('field'),
+                ],
+            ],
+        ];
+
+        return new Operation([
+            'tags' => array_filter([
+                $dataType->slug
+            ]),
+            'summary'     => $name . ' single update',
+            'operationId' => Str::snake($name) . '_single_update',
+            'parameters'  => $parameters,
+            'requestBody' => [
+                '$ref' => '#/components/requestBodies/' . $singleUpdateName,
+            ],
+            'responses' => [
+                200 => [
+                    'description' => 'Success',
+                    'content'     => [
+                        'application/json' => [
+                            'schema' => [
+                                'properties' => [
+                                    'data' => [
+                                        '$ref' => '#/components/schemas/' . $readName,
+                                    ],
+                                ],
+                                'type' => 'object',
+                            ],
+                        ],
+                    ],
+                ],
+                401 => [
+                    'description' => 'Unauthenticated',
+                ],
+                403 => [
+                    'description' => 'Forbidden',
+                ],
+            ],
+            'security' => [
+                [
+                    'token' => [
+                    ],
+                ],
+            ],
+        ]);
+    }
+
+    /**
      * Delete operation.
      */
     protected function deleteOperation($dataType): Operation
@@ -731,11 +819,13 @@ class GenerateDocsCommand extends Command
         &$requestBodies,
         $dataType
     ): void {
-        $storeName  = 'Voyager' . Str::studly($dataType->name) . 'StoreRequest';
-        $updateName = 'Voyager' . Str::studly($dataType->name) . 'UpdateRequest';
+        $storeName        = 'Voyager' . Str::studly($dataType->name) . 'StoreRequest';
+        $updateName       = 'Voyager' . Str::studly($dataType->name) . 'UpdateRequest';
+        $singleUpdateName = 'Voyager' . Str::studly($dataType->name) . 'SingleUpdateRequest';
 
-        $requestBodies[$storeName]  = $this->requestBody('add', $dataType);
-        $requestBodies[$updateName] = $this->requestBody('edit', $dataType);
+        $requestBodies[$storeName]        = $this->requestBody('add', $dataType);
+        $requestBodies[$updateName]       = $this->requestBody('edit', $dataType);
+        $requestBodies[$singleUpdateName] = $this->singleRequestBody($dataType);
     }
 
     /**
@@ -759,83 +849,7 @@ class GenerateDocsCommand extends Command
         }
 
         foreach ($dataType->{$updateOrCreate . 'Rows'} as $row) {
-            $property = [
-                'description' => $row->display_name,
-                'type'        => 'string',
-            ];
-
-            switch ($row->type) {
-                case 'text':
-                    // code...
-                    break;
-
-                case 'image':
-                    $property['format']      = 'binary';
-                    $property['description'] = 'jpg,jpeg,png';
-                    break;
-
-                case 'password':
-                    $property['type'] = 'password';
-                    break;
-
-                case 'select_dropdown':
-                    $property['description'] = json_encode($row->details->options ?? [], JSON_PRETTY_PRINT);
-                    $property['enum']        = array_keys((array) $row->details->options ?? []);
-                    break;
-
-                case 'hidden':
-                    // code...
-                    break;
-
-                case 'number':
-                    $property['type'] = 'integer';
-                    break;
-
-                case 'timestamp':
-                    $property['type']    = 'date-time';
-                    $property['pattern'] = '/([0-9]{4})-(?:[0-9]{2})-([0-9]{2}) ([0-9]{2}):([0-9]{2})/';
-                    $property['example'] = '2021-05-17 00:00';
-                    break;
-
-                case 'relationship':
-                    $property['type'] = 'integer';
-                    break;
-
-                case 'select_multiple':
-                    // code...
-                    break;
-
-                case 'rich_text_box':
-                    // code...
-                    break;
-
-                case 'date':
-                    $property['type']    = 'date';
-                    $property['pattern'] = '/([0-9]{4})-(?:[0-9]{2})-([0-9]{2})/';
-                    $property['example'] = '2021-05-17';
-                    break;
-
-                case 'checkbox':
-                    // code...
-                    break;
-
-                case 'text_area':
-                    // code...
-                    break;
-
-                case 'code_editor':
-                    // code...
-                    break;
-
-                case 'file':
-                    $property['format']      = 'binary';
-                    $property['description'] = 'doc,docx,pdf';
-                    break;
-
-                default:
-                    // code...
-                    break;
-            }
+            $property = $this->getProperty($row);
 
             $properties[$row->field] = $property;
         }
@@ -851,6 +865,131 @@ class GenerateDocsCommand extends Command
                 ],
             ],
         ]);
+    }
+
+    /**
+     * Get Single Request Body.
+     */
+    protected function singleRequestBody(
+        $dataType
+    ): RequestBody {
+        $properties = [
+            'dry-run' => [
+                'description' => 'Use dry-run only to validate',
+                'type'        => 'boolean',
+            ],
+        ];
+
+        $enctype = 'application/x-www-form-urlencoded';
+
+        if (hasFile($dataType->editRows)) {
+            $enctype = 'multipart/form-data';
+        }
+
+        foreach ($dataType->editRows as $row) {
+            $property = $this->getProperty($row);
+
+            $properties[$row->field] = $property;
+        }
+
+        return new RequestBody([
+            'required' => true,
+            'content'  => [
+                $enctype => [
+                    'schema' => [
+                        'properties' => $properties,
+                        'type'       => 'object',
+                    ],
+                ],
+            ],
+        ]);
+    }
+
+    /**
+     * Get Property.
+     */
+    protected function getProperty(
+        DataRow $row
+    ): array {
+        $property = [
+            'description' => $row->display_name,
+            'type'        => 'string',
+        ];
+
+        switch ($row->type) {
+            case 'text':
+                // code...
+                break;
+
+            case 'image':
+                $property['format']      = 'binary';
+                $property['description'] = 'jpg,jpeg,png';
+                break;
+
+            case 'password':
+                $property['type'] = 'password';
+                break;
+
+            case 'select_dropdown':
+                $property['description'] = json_encode($row->details->options ?? [], JSON_PRETTY_PRINT);
+                $property['enum']        = array_keys((array) $row->details->options ?? []);
+                break;
+
+            case 'hidden':
+                // code...
+                break;
+
+            case 'number':
+                $property['type'] = 'integer';
+                break;
+
+            case 'timestamp':
+                $property['type']    = 'date-time';
+                $property['pattern'] = '/([0-9]{4})-(?:[0-9]{2})-([0-9]{2}) ([0-9]{2}):([0-9]{2})/';
+                $property['example'] = '2021-05-17 00:00';
+                break;
+
+            case 'relationship':
+                $property['type'] = 'integer';
+                break;
+
+            case 'select_multiple':
+                // code...
+                break;
+
+            case 'rich_text_box':
+                // code...
+                break;
+
+            case 'date':
+                $property['type']    = 'date';
+                $property['pattern'] = '/([0-9]{4})-(?:[0-9]{2})-([0-9]{2})/';
+                $property['example'] = '2021-05-17';
+                break;
+
+            case 'checkbox':
+                // code...
+                break;
+
+            case 'text_area':
+                // code...
+                break;
+
+            case 'code_editor':
+                // code...
+                break;
+
+            case 'file':
+                $property['format']      = 'binary';
+                $property['description'] = 'doc,docx,pdf';
+                break;
+
+            default:
+                // code...
+                break;
+        }
+
+        return $property;
     }
 
     /**

@@ -14,10 +14,11 @@ trait CrudActions
 {
     use IndexAction;
     use ShowAction;
-    use EditAction;
-    use UpdateAction;
     use CreateAction;
     use StoreAction;
+    use EditAction;
+    use UpdateAction;
+    use SingleUpdateAction;
     use DestroyAction;
     use RestoreAction;
 
