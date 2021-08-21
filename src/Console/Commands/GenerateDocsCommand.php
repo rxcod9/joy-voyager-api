@@ -745,7 +745,12 @@ class GenerateDocsCommand extends Command
         string $updateOrCreate,
         $dataType
     ): RequestBody {
-        $properties = [];
+        $properties = [
+            'dry-run' => [
+                'description' => 'Use dry-run only to validate',
+                'type'        => 'boolean',
+            ]
+        ];
 
         $enctype = 'application/x-www-form-urlencoded';
 

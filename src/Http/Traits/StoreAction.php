@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Joy\VoyagerApi\Http\Traits;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use TCG\Voyager\Events\BreadDataAdded;
 use TCG\Voyager\Facades\Voyager;
@@ -28,7 +29,13 @@ trait StoreAction
         $this->authorize('add', app($dataType->model_name));
 
         // Validate fields with ajax
-        $val  = $this->validateBread($request->all(), $dataType->addRows)->validate();
+        $val = $this->validateBread($request->all(), $dataType->addRows)->validate();
+
+        // Use dry-run only to validate
+        if ($request->has('dry-run')) {
+            return new Response('', Response::HTTP_NO_CONTENT);
+        }
+
         $data = $this->insertUpdateData($request, $slug, $dataType->addRows, new $dataType->model_name());
 
         event(new BreadDataAdded($dataType, $data));

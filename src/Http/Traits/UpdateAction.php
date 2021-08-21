@@ -6,6 +6,7 @@ namespace Joy\VoyagerApi\Http\Traits;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use TCG\Voyager\Events\BreadDataUpdated;
 use TCG\Voyager\Facades\Voyager;
@@ -38,6 +39,11 @@ trait UpdateAction
 
         // Validate fields with ajax
         $val = $this->validateBread($request->all(), $dataType->editRows, $dataType->name, $id)->validate();
+
+        // Use dry-run only to validate
+        if ($request->has('dry-run')) {
+            return new Response('', Response::HTTP_NO_CONTENT);
+        }
 
         // Get fields with images to remove before updating and make a copy of $data
         $to_remove = $dataType->editRows->where('type', 'image')
