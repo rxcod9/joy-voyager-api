@@ -35,4 +35,25 @@ return [
     */
 
     'guard' =>  env('VOYAGER_API_GUARD', 'api'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Filters config
+    |--------------------------------------------------------------------------
+    |
+    | Here you can specify voyager datatable filters settings
+    |
+    */
+    'filters'        => [
+        'hidden'   => [
+            'password',
+        ]
+    ],
+    'users'        => [
+        'filters' => [
+            'hidden'   => [
+                'remember_token',
+            ]
+        ],
+    ],
 ];

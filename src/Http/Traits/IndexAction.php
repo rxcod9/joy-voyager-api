@@ -8,9 +8,12 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Joy\VoyagerApi\Services\Filter;
 use TCG\Voyager\Facades\Voyager;
+use TCG\Voyager\Models\DataType;
 
 trait IndexAction
 {
@@ -81,15 +84,21 @@ trait IndexAction
                     );
                 }
 
-                $dataTypeContent = call_user_func([
-                    $query->orderBy($orderBy, $querySortOrder),
-                    $getter,
-                ]);
+                $query->orderBy($orderBy, $querySortOrder);
             } elseif ($model->timestamps) {
-                $dataTypeContent = call_user_func([$query->latest($model::CREATED_AT), $getter]);
+                $query->latest($model::CREATED_AT);
             } else {
-                $dataTypeContent = call_user_func([$query->orderBy($model->getKeyName(), 'DESC'), $getter]);
+                $query->orderBy($model->getKeyName(), 'DESC');
             }
+
+            $this->processGlobalSearch($query, $dataType, $request);
+            $this->processDataTableFilters($query, $dataType, $request);
+            $this->processApiFilters($query, $dataType, $request);
+
+            $dataTypeContent = call_user_func([
+                $query,
+                $getter,
+            ]);
 
             // Replace relationships' keys for labels and create READ links if a slug is provided.
             $dataTypeContent = $this->resolveRelations($dataTypeContent, $dataType);
@@ -161,36 +170,34 @@ trait IndexAction
         $meta = [
             'showCheckboxColumn' => $showCheckboxColumn,
             // 'recordsTotal'       => $unfilteredCount,
-            'recordsFiltered' => (
-                $dataTypeContent instanceof LengthAwarePaginator
-                    ? $dataTypeContent->total()
-                    : (
-                        $dataTypeContent instanceof Collection
-                        ? $dataTypeContent->count()
-                        : count($dataTypeContent)
-                    )
+            'recordsFiltered' => ($dataTypeContent instanceof LengthAwarePaginator
+                ? $dataTypeContent->total()
+                : ($dataTypeContent instanceof Collection
+                    ? $dataTypeContent->count()
+                    : count($dataTypeContent)
+                )
             ),
         ];
 
         return $resourceCollection::make($dataTypeContent)
-        ->additional(
-            compact(
-                'actions',  // @FIXME
-                // 'dataType', // @TODO
-                'isModelTranslatable',
-                // 'search',
-                'orderBy',
-                'orderColumn',
-                'sortableColumns',
-                'sortOrder',
-                // 'searchNames',
-                // 'isServerSide',
-                'defaultSearchKey',
-                'usesSoftDeletes',
-                'showSoftDeleted',
-                'showCheckboxColumn'
-            )
-        );
+            ->additional(
+                compact(
+                    'actions',  // @FIXME
+                    // 'dataType', // @TODO
+                    'isModelTranslatable',
+                    // 'search',
+                    'orderBy',
+                    'orderColumn',
+                    'sortableColumns',
+                    'sortOrder',
+                    // 'searchNames',
+                    // 'isServerSide',
+                    'defaultSearchKey',
+                    'usesSoftDeletes',
+                    'showSoftDeleted',
+                    'showCheckboxColumn'
+                )
+            );
     }
 
     /**
@@ -206,5 +213,104 @@ trait IndexAction
         $dataTypeContent
     ) {
         //
+    }
+
+    /**
+     * Process Global Search.
+     *
+     * @param Request $query    Request
+     * @param mixed   DataType  $dataType
+     * @param mixed   Request   $request
+     *
+     * @return void
+     */
+    protected function processGlobalSearch(
+        $query,
+        DataType $dataType,
+        Request $request
+    ) {
+        $searchValue   = $request->input('search.value');
+
+        if (!$searchValue) {
+            return;
+        }
+
+        if (modelHasScope($dataType->model_name, 'globalSearch')) {
+            $query->scopes([
+                Str::camel('globalSearch') => [$searchValue],
+            ]);
+            return;
+        }
+
+        $model = app($dataType->model_name);
+
+        switch ($model->getKeyType()) {
+            case 'int':
+                $query->whereKey((int) $searchValue);
+                break;
+            case 'string':
+                $query->whereKey($searchValue);
+                break;
+
+            default:
+                // code...
+                break;
+        }
+    }
+
+    /**
+     * Process datatable filters.
+     *
+     * @param Request $query    Request
+     * @param mixed   DataType  $dataType
+     * @param mixed   Request   $request
+     *
+     * @return void
+     */
+    protected function processDataTableFilters(
+        $query,
+        DataType $dataType,
+        Request $request
+    ) {
+        $dataRows   = Voyager::model('DataRow')->whereDataTypeId($dataType->id)->get();
+        $columns    = $request->input('columns', []); //.name, .search.value .search.regex
+
+        foreach ($columns as $key => $column) {
+            $searchKey   = $request->input('columns.' . $key . '.name');
+            $searchValue = $request->input('columns.' . $key . '.search.value');
+
+            if (!($searchValue !== null && $searchValue !== '' && $searchValue !== ',' && $searchValue !== ',,' && $searchValue !== 'null')) {
+                continue;
+            }
+
+            $row = $dataRows->where('field', $searchKey)->first();
+
+            app(Filter::class)->handle($query, $searchValue, $row, $dataType, $request);
+        }
+    }
+
+    /**
+     * Process filters.
+     *
+     * @param Request $query    Request
+     * @param mixed   DataType  $dataType
+     * @param mixed   Request   $request
+     *
+     * @return void
+     */
+    protected function processApiFilters(
+        $query,
+        DataType $dataType,
+        Request $request
+    ) {
+        foreach ($dataType->browseRows as $row) {
+            $searchValue = $request->input('filters.' . $row->field);
+
+            if (!($searchValue !== null && $searchValue !== '' && $searchValue !== ',' && $searchValue !== ',,' && $searchValue !== 'null')) {
+                continue;
+            }
+
+            app(Filter::class)->handle($query, $searchValue, $row, $dataType, $request);
+        }
     }
 }
