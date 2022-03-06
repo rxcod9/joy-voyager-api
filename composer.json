@@ -34,7 +34,7 @@
         "ext-pdo_sqlite": "*",
         "ext-zip": "*",
         "doctrine/dbal": "2.13.7",
-        "friendsofphp/php-cs-fixer": "3.2.1",
+        "friendsofphp/php-cs-fixer": "3.6.0",
         "guzzlehttp/guzzle": "^6.3|^7.0",
         "mockery/mockery": "1.5.0",
         "orchestra/testbench": "^5.0|^6.0",
