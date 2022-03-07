@@ -25,8 +25,8 @@
         "cebe/php-openapi": "^1.5",
         "darkaonline/l5-swagger": "^7.0|^8.0",
         "illuminate/support": "^7|^8",
-        "joy/voyager-api-auth": "dev-main",
-        "joy/voyager-core": "dev-main",
+        "joy/voyager-api-auth": "^1.0",
+        "joy/voyager-core": "^1.0",
         "larapack/hooks": "^1.0.5",
         "tcg/voyager": "^1.4"
     },
