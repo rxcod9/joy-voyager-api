@@ -250,11 +250,11 @@ class GenerateDocsCommand extends Command
         $parameters = [];
 
         $parameters['q'] = [
-            'name'     => 'q',
-            'in'       => 'query',
-            'required' => false,
+            'name'        => 'q',
+            'in'          => 'query',
+            'required'    => false,
             'description' => 'Global search',
-            'schema'   => [
+            'schema'      => [
                 'type' => 'string',
             ],
         ];

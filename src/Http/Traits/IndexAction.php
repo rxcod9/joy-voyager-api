@@ -170,9 +170,11 @@ trait IndexAction
         $meta = [
             'showCheckboxColumn' => $showCheckboxColumn,
             // 'recordsTotal'       => $unfilteredCount,
-            'recordsFiltered' => ($dataTypeContent instanceof LengthAwarePaginator
+            'recordsFiltered' => (
+                $dataTypeContent instanceof LengthAwarePaginator
                 ? $dataTypeContent->total()
-                : ($dataTypeContent instanceof Collection
+                : (
+                    $dataTypeContent instanceof Collection
                     ? $dataTypeContent->count()
                     : count($dataTypeContent)
                 )
@@ -218,7 +220,7 @@ trait IndexAction
     /**
      * Process Global Search.
      *
-     * @param Request $query    Request
+     * @param Request $query Request
      * @param mixed   DataType  $dataType
      * @param mixed   Request   $request
      *
@@ -229,7 +231,7 @@ trait IndexAction
         DataType $dataType,
         Request $request
     ) {
-        $searchValue   = $request->input('search.value', $request->input('q'));
+        $searchValue = $request->input('search.value', $request->input('q'));
 
         if (!$searchValue) {
             return;
@@ -261,7 +263,7 @@ trait IndexAction
     /**
      * Process datatable filters.
      *
-     * @param Request $query    Request
+     * @param Request $query Request
      * @param mixed   DataType  $dataType
      * @param mixed   Request   $request
      *
@@ -272,8 +274,8 @@ trait IndexAction
         DataType $dataType,
         Request $request
     ) {
-        $dataRows   = Voyager::model('DataRow')->whereDataTypeId($dataType->id)->get();
-        $columns    = $request->input('columns', []); //.name, .search.value .search.regex
+        $dataRows = Voyager::model('DataRow')->whereDataTypeId($dataType->id)->get();
+        $columns  = $request->input('columns', []); //.name, .search.value .search.regex
 
         foreach ($columns as $key => $column) {
             $searchKey   = $request->input('columns.' . $key . '.name');
@@ -292,7 +294,7 @@ trait IndexAction
     /**
      * Process filters.
      *
-     * @param Request $query    Request
+     * @param Request $query Request
      * @param mixed   DataType  $dataType
      * @param mixed   Request   $request
      *
