@@ -229,7 +229,7 @@ trait IndexAction
         DataType $dataType,
         Request $request
     ) {
-        $searchValue   = $request->input('search.value');
+        $searchValue   = $request->input('search.value', $request->input('q'));
 
         if (!$searchValue) {
             return;

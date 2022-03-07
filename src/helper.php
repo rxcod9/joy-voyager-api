@@ -31,3 +31,18 @@ if (!function_exists('modelHasScope')) {
         return method_exists($model, 'scope' . Str::studly($scope));
     }
 }
+
+if (!function_exists('getDataTypeSortableColumns')) {
+    /**
+     * Get data type sortable columns
+     *
+     * @param DataType $dataType
+     */
+    function getDataTypeSortableColumns($dataType): array
+    {
+        return array_merge(
+            $dataType->fields(),
+            $dataType->rows->where('type', 'relationship')->pluck('field')->toArray()
+        );
+    }
+}

@@ -13,6 +13,7 @@ use cebe\openapi\Writer;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 use TCG\Voyager\Facades\Voyager;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class GenerateDocsCommand extends Command
 {
@@ -191,8 +192,7 @@ class GenerateDocsCommand extends Command
             ],
             'security' => [
                 [
-                    'token' => [
-                    ],
+                    'token' => [],
                 ],
             ],
         ]);
@@ -220,8 +220,7 @@ class GenerateDocsCommand extends Command
                         'application/json' => [
                             'schema' => [
                                 'properties' => [
-                                    'data' => [
-                                    ],
+                                    'data' => [],
                                 ],
                                 'type' => 'object',
                             ],
@@ -237,8 +236,7 @@ class GenerateDocsCommand extends Command
             ],
             'security' => [
                 [
-                    'token' => [
-                    ],
+                    'token' => [],
                 ],
             ],
         ]);
@@ -250,6 +248,16 @@ class GenerateDocsCommand extends Command
     protected function indexParameters($dataType): array
     {
         $parameters = [];
+
+        $parameters['q'] = [
+            'name'     => 'q',
+            'in'       => 'query',
+            'required' => false,
+            'description' => 'Global search',
+            'schema'   => [
+                'type' => 'string',
+            ],
+        ];
 
         $parameters['page'] = [
             'name'     => 'page',
@@ -269,18 +277,19 @@ class GenerateDocsCommand extends Command
             ],
         ];
 
-        $parameters['sort'] = [
-            'name'        => 'sort',
+        $parameters['order_by'] = [
+            'name'        => 'order_by',
             'in'          => 'query',
             'required'    => false,
             'description' => 'Sort by column',
             'schema'      => [
                 'type' => 'string',
+                'enum' => getDataTypeSortableColumns($dataType),
             ],
         ];
 
-        $parameters['dir'] = [
-            'name'        => 'dir',
+        $parameters['sort_order'] = [
+            'name'        => 'sort_order',
             'in'          => 'query',
             'required'    => false,
             'description' => 'Sort by direction',
@@ -289,6 +298,21 @@ class GenerateDocsCommand extends Command
                 'enum' => ['asc', 'desc'],
             ],
         ];
+
+        if (
+            strlen($dataType->model_name) != 0 &&
+            $dataType->model_name &&
+            in_array(SoftDeletes::class, class_uses_recursive($dataType->model_name))
+        ) {
+            $parameters['showSoftDeleted'] = [
+                'name'     => 'showSoftDeleted',
+                'in'       => 'query',
+                'required' => false,
+                'schema'   => [
+                    'type' => 'boolean',
+                ],
+            ];
+        }
 
         $this->filterParemeters($parameters, $dataType);
 
@@ -345,8 +369,7 @@ class GenerateDocsCommand extends Command
             ],
             'security' => [
                 [
-                    'token' => [
-                    ],
+                    'token' => [],
                 ],
             ],
         ]);
@@ -402,8 +425,7 @@ class GenerateDocsCommand extends Command
             ],
             'security' => [
                 [
-                    'token' => [
-                    ],
+                    'token' => [],
                 ],
             ],
         ]);
@@ -453,8 +475,7 @@ class GenerateDocsCommand extends Command
             ],
             'security' => [
                 [
-                    'token' => [
-                    ],
+                    'token' => [],
                 ],
             ],
         ]);
@@ -514,8 +535,7 @@ class GenerateDocsCommand extends Command
             ],
             'security' => [
                 [
-                    'token' => [
-                    ],
+                    'token' => [],
                 ],
             ],
         ]);
@@ -599,8 +619,7 @@ class GenerateDocsCommand extends Command
             ],
             'security' => [
                 [
-                    'token' => [
-                    ],
+                    'token' => [],
                 ],
             ],
         ]);
@@ -656,8 +675,7 @@ class GenerateDocsCommand extends Command
             ],
             'security' => [
                 [
-                    'token' => [
-                    ],
+                    'token' => [],
                 ],
             ],
         ]);
@@ -713,8 +731,7 @@ class GenerateDocsCommand extends Command
             ],
             'security' => [
                 [
-                    'token' => [
-                    ],
+                    'token' => [],
                 ],
             ],
         ]);
@@ -777,8 +794,7 @@ class GenerateDocsCommand extends Command
                 200 => [
                     'description' => 'Success',
                     'content'     => [
-                        'application/json' => [
-                        ],
+                        'application/json' => [],
                     ],
                 ],
                 401 => [
@@ -790,8 +806,7 @@ class GenerateDocsCommand extends Command
             ],
             'security' => [
                 [
-                    'token' => [
-                    ],
+                    'token' => [],
                 ],
             ],
             // ],
