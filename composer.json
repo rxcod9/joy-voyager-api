@@ -21,10 +21,10 @@
         "role": "Tech Lead & Architect"
     }],
     "require": {
-        "php": "^7.3|^8.0",
+        "php": "^7.3|^8.0|^9.0",
         "cebe/php-openapi": "^1.5",
         "darkaonline/l5-swagger": "^7.0|^8.0",
-        "illuminate/support": "^7|^8",
+        "illuminate/support": "^7|^8|^9",
         "joy/voyager-api-auth": "^1.0",
         "joy/voyager-core": "^1.0",
         "tcg/voyager": "^1.4"
