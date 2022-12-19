@@ -4,7 +4,7 @@ This [Laravel](https://laravel.com/)/[Voyager](https://voyager.devdojo.com/) mod
 
 By 🐼 [Ramakant Gangwar](https://github.com/rxcod9).
 
-[![Screenshot](https://raw.githubusercontent.com/rxcod9/joy-voyager-api/main/cover.jpg)](https://joy-voyager.herokuapp.com/api/documentation)
+[![Screenshot](https://raw.githubusercontent.com/rxcod9/joy-voyager-api/main/cover.jpg)](https://joy-voyager.kodmonk.com/api/documentation)
 
 [![Latest Version](https://img.shields.io/github/v/release/rxcod9/joy-voyager-api?style=flat-square)](https://github.com/rxcod9/joy-voyager-api/releases)
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/rxcod9/joy-voyager-api/run-tests?label=tests)
@@ -47,7 +47,7 @@ In order to override views delivered by Voyager DataTable, copy contents from ``
 
 ## Working Example
 
-You can try laravel demo here [https://joy-voyager.herokuapp.com/api/documentation](https://joy-voyager.herokuapp.com/api/documentation).
+You can try laravel demo here [https://joy-voyager.kodmonk.com/api/documentation](https://joy-voyager.kodmonk.com/api/documentation).
 
 ## Documentation
 
