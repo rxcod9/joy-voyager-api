@@ -6,7 +6,7 @@ namespace Joy\VoyagerApi\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Joy\VoyagerApi\Http\Traits\CrudActions;
-use TCG\Voyager\Http\Controllers\VoyagerBaseController as TCGVoyagerBaseController;
+use Joy\VoyagerCore\Http\Controllers\VoyagerBaseController as BaseVoyagerBaseController;
 
 /**
  * @OA\Info(
@@ -25,7 +25,7 @@ use TCG\Voyager\Http\Controllers\VoyagerBaseController as TCGVoyagerBaseControll
  *      description="Another API Server"
  * )
  */
-class VoyagerBaseController extends TCGVoyagerBaseController
+class VoyagerBaseController extends BaseVoyagerBaseController
 {
     use CrudActions;
 

@@ -7,8 +7,8 @@ namespace Joy\VoyagerApi\Http\Traits;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
-use TCG\Voyager\Http\Controllers\ContentTypes\File;
-use TCG\Voyager\Http\Controllers\ContentTypes\Relationship;
+use Joy\VoyagerCore\Http\Controllers\ContentTypes\File;
+use Joy\VoyagerCore\Http\Controllers\ContentTypes\Relationship;
 
 trait CrudActions
 {
