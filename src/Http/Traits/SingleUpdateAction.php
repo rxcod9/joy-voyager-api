@@ -85,7 +85,7 @@ trait SingleUpdateAction
         return $resource::make($data)
             ->additional(
                 [
-                    'message' => __('voyager::generic.successfully_updated')
+                    'message'    => __('voyager::generic.successfully_updated')
                         . " {$dataType->getTranslatedAttribute('display_name_singular')}",
                     'alert-type' => 'success',
                     'canBrowse'  => auth()->user()->can(

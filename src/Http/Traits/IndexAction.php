@@ -170,7 +170,7 @@ trait IndexAction
         $meta = [
             'showCheckboxColumn' => $showCheckboxColumn,
             // 'recordsTotal'       => $unfilteredCount,
-            'recordsFiltered' => (
+            'recordsFiltered'    => (
                 $dataTypeContent instanceof LengthAwarePaginator
                 ? $dataTypeContent->total()
                 : (
