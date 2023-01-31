@@ -68,13 +68,13 @@ class GenerateDocsCommand extends Command
 
         // store base API Description
         $openapi = new OpenApi([
-            'openapi'    => '3.0.2',
-            'info'       => [
+            'openapi' => '3.0.2',
+            'info'    => [
                 'title'       => config('app.name', 'Joy Voyager Api'),
                 'description' => 'Joy VoyagerApi module adds REST Api end points to Voyager with Passport and Swagger support https://github.com/rxcod9/joy-voyager-api.',
                 'version'     => '1.0.0',
             ],
-            'servers'    => [
+            'servers' => [
                 new Server([
                     'url'         => config('l5-swagger.defaults.constants.L5_SWAGGER_CONST_HOST'),
                     'description' => 'Primary API Server',
@@ -152,7 +152,7 @@ class GenerateDocsCommand extends Command
         $browseName = 'Voyager' . Str::studly($dataType->name) . 'BrowseResource';
 
         return new Operation([
-            'tags'        => array_filter([
+            'tags' => array_filter([
                 $dataType->slug
             ]),
             'summary'     => $name . ' index',
@@ -165,7 +165,7 @@ class GenerateDocsCommand extends Command
                         'application/json' => [
                             'schema' => [
                                 'properties' => [
-                                    'data'  => [
+                                    'data' => [
                                         'type'  => 'array',
                                         'items' => [
                                             '$ref' => '#/components/schemas/' . $browseName,
@@ -174,11 +174,11 @@ class GenerateDocsCommand extends Command
                                     'links' => [
                                         '$ref' => '#/components/schemas/Links',
                                     ],
-                                    'meta'  => [
+                                    'meta' => [
                                         '$ref' => '#/components/schemas/Meta',
                                     ],
                                 ],
-                                'type'       => 'object',
+                                'type' => 'object',
                             ],
                         ],
                     ],
@@ -190,7 +190,7 @@ class GenerateDocsCommand extends Command
                     'description' => 'Forbidden',
                 ],
             ],
-            'security'    => [
+            'security' => [
                 [
                     'token' => [],
                 ],
@@ -207,13 +207,13 @@ class GenerateDocsCommand extends Command
         $browseName = 'Voyager' . Str::studly($dataType->name) . 'CreateResource';
 
         return new Operation([
-            'tags'        => array_filter([
+            'tags' => array_filter([
                 $dataType->slug
             ]),
             'summary'     => $name . ' create',
             'operationId' => Str::snake($name) . '_create',
             // 'parameters'  => $this->createParameters($dataType),
-            'responses'   => [
+            'responses' => [
                 200 => [
                     'description' => 'Success',
                     'content'     => [
@@ -222,7 +222,7 @@ class GenerateDocsCommand extends Command
                                 'properties' => [
                                     'data' => [],
                                 ],
-                                'type'       => 'object',
+                                'type' => 'object',
                             ],
                         ],
                     ],
@@ -234,7 +234,7 @@ class GenerateDocsCommand extends Command
                     'description' => 'Forbidden',
                 ],
             ],
-            'security'    => [
+            'security' => [
                 [
                     'token' => [],
                 ],
@@ -338,7 +338,7 @@ class GenerateDocsCommand extends Command
         ];
 
         return new Operation([
-            'tags'        => array_filter([
+            'tags' => array_filter([
                 $dataType->slug
             ]),
             'summary'     => $name . ' show',
@@ -355,7 +355,7 @@ class GenerateDocsCommand extends Command
                                         '$ref' => '#/components/schemas/' . $readName,
                                     ],
                                 ],
-                                'type'       => 'object',
+                                'type' => 'object',
                             ],
                         ],
                     ],
@@ -367,7 +367,7 @@ class GenerateDocsCommand extends Command
                     'description' => 'Forbidden',
                 ],
             ],
-            'security'    => [
+            'security' => [
                 [
                     'token' => [],
                 ],
@@ -394,7 +394,7 @@ class GenerateDocsCommand extends Command
         ];
 
         return new Operation([
-            'tags'        => array_filter([
+            'tags' => array_filter([
                 $dataType->slug
             ]),
             'summary'     => $name . ' edit',
@@ -411,7 +411,7 @@ class GenerateDocsCommand extends Command
                                         '$ref' => '#/components/schemas/' . $editName,
                                     ],
                                 ],
-                                'type'       => 'object',
+                                'type' => 'object',
                             ],
                         ],
                     ],
@@ -423,7 +423,7 @@ class GenerateDocsCommand extends Command
                     'description' => 'Forbidden',
                 ],
             ],
-            'security'    => [
+            'security' => [
                 [
                     'token' => [],
                 ],
@@ -442,7 +442,7 @@ class GenerateDocsCommand extends Command
         $storeName  = 'Voyager' . Str::studly($dataType->name) . 'StoreRequest';
 
         return new Operation([
-            'tags'        => array_filter([
+            'tags' => array_filter([
                 $dataType->slug
             ]),
             'summary'     => $name . ' store',
@@ -450,7 +450,7 @@ class GenerateDocsCommand extends Command
             'requestBody' => [
                 '$ref' => '#/components/requestBodies/' . $storeName,
             ],
-            'responses'   => [
+            'responses' => [
                 200 => [
                     'description' => 'Success',
                     'content'     => [
@@ -461,7 +461,7 @@ class GenerateDocsCommand extends Command
                                         '$ref' => '#/components/schemas/' . $readName,
                                     ],
                                 ],
-                                'type'       => 'object',
+                                'type' => 'object',
                             ],
                         ],
                     ],
@@ -473,7 +473,7 @@ class GenerateDocsCommand extends Command
                     'description' => 'Forbidden',
                 ],
             ],
-            'security'    => [
+            'security' => [
                 [
                     'token' => [],
                 ],
@@ -501,7 +501,7 @@ class GenerateDocsCommand extends Command
         ];
 
         return new Operation([
-            'tags'        => array_filter([
+            'tags' => array_filter([
                 $dataType->slug
             ]),
             'summary'     => $name . ' update',
@@ -510,7 +510,7 @@ class GenerateDocsCommand extends Command
             'requestBody' => [
                 '$ref' => '#/components/requestBodies/' . $updateName,
             ],
-            'responses'   => [
+            'responses' => [
                 200 => [
                     'description' => 'Success',
                     'content'     => [
@@ -521,7 +521,7 @@ class GenerateDocsCommand extends Command
                                         '$ref' => '#/components/schemas/' . $readName,
                                     ],
                                 ],
-                                'type'       => 'object',
+                                'type' => 'object',
                             ],
                         ],
                     ],
@@ -533,7 +533,7 @@ class GenerateDocsCommand extends Command
                     'description' => 'Forbidden',
                 ],
             ],
-            'security'    => [
+            'security' => [
                 [
                     'token' => [],
                 ],
@@ -585,7 +585,7 @@ class GenerateDocsCommand extends Command
         ];
 
         return new Operation([
-            'tags'        => array_filter([
+            'tags' => array_filter([
                 $dataType->slug
             ]),
             'summary'     => $name . ' single update',
@@ -594,7 +594,7 @@ class GenerateDocsCommand extends Command
             'requestBody' => [
                 '$ref' => '#/components/requestBodies/' . $singleUpdateName,
             ],
-            'responses'   => [
+            'responses' => [
                 200 => [
                     'description' => 'Success',
                     'content'     => [
@@ -605,7 +605,7 @@ class GenerateDocsCommand extends Command
                                         '$ref' => '#/components/schemas/' . $readName,
                                     ],
                                 ],
-                                'type'       => 'object',
+                                'type' => 'object',
                             ],
                         ],
                     ],
@@ -617,7 +617,7 @@ class GenerateDocsCommand extends Command
                     'description' => 'Forbidden',
                 ],
             ],
-            'security'    => [
+            'security' => [
                 [
                     'token' => [],
                 ],
@@ -644,7 +644,7 @@ class GenerateDocsCommand extends Command
         ];
 
         return new Operation([
-            'tags'        => array_filter([
+            'tags' => array_filter([
                 $dataType->slug
             ]),
             'summary'     => $name . ' delete',
@@ -661,7 +661,7 @@ class GenerateDocsCommand extends Command
                                         'type' => 'string',
                                     ],
                                 ],
-                                'type'       => 'object',
+                                'type' => 'object',
                             ],
                         ],
                     ],
@@ -673,7 +673,7 @@ class GenerateDocsCommand extends Command
                     'description' => 'Forbidden',
                 ],
             ],
-            'security'    => [
+            'security' => [
                 [
                     'token' => [],
                 ],
@@ -700,7 +700,7 @@ class GenerateDocsCommand extends Command
         ];
 
         return new Operation([
-            'tags'        => array_filter([
+            'tags' => array_filter([
                 $dataType->slug
             ]),
             'summary'     => $name . ' restore',
@@ -717,7 +717,7 @@ class GenerateDocsCommand extends Command
                                         'type' => 'string',
                                     ],
                                 ],
-                                'type'       => 'object',
+                                'type' => 'object',
                             ],
                         ],
                     ],
@@ -729,7 +729,7 @@ class GenerateDocsCommand extends Command
                     'description' => 'Forbidden',
                 ],
             ],
-            'security'    => [
+            'security' => [
                 [
                     'token' => [],
                 ],
@@ -784,7 +784,7 @@ class GenerateDocsCommand extends Command
 
         return new Operation([
             // 'get' => [
-            'tags'        => array_filter([
+            'tags' => array_filter([
                 $dataType->slug
             ]),
             'summary'     => $name . ' relation',
@@ -804,7 +804,7 @@ class GenerateDocsCommand extends Command
                     'description' => 'Forbidden',
                 ],
             ],
-            'security'    => [
+            'security' => [
                 [
                     'token' => [],
                 ],

@@ -59,7 +59,7 @@ trait StoreAction
             return $resource::make($data)
                 ->additional(
                     [
-                        'message'    => __('voyager::generic.successfully_added_new')
+                        'message' => __('voyager::generic.successfully_added_new')
                             . " {$dataType->getTranslatedAttribute('display_name_singular')}",
                         'alert-type' => 'success',
                         'canBrowse'  => auth()->user()->can(
