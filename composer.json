@@ -24,7 +24,7 @@
         "php": "^7.3|^8.0|^9.0",
         "cebe/php-openapi": "^1.5",
         "darkaonline/l5-swagger": "^7.0|^8.0",
-        "illuminate/support": "^7|^8|^9",
+        "illuminate/support": "^7|^8|^9|^10",
         "joy/voyager-api-auth": "^1.0",
         "joy/voyager-core": "^1.0",
         "tcg/voyager": "^1.4"
@@ -35,8 +35,8 @@
         "friendsofphp/php-cs-fixer": "^3.0",
         "guzzlehttp/guzzle": "^6.3|^7.0",
         "mockery/mockery": "^1.3",
-        "orchestra/testbench": "^5.0|^6.0|^7.0",
-        "phpunit/phpunit": "^9.1"
+        "orchestra/testbench": "^5.0|^6.0|^7.0|^8.0",
+        "phpunit/phpunit": "^9.1|^10.0"
     },
     "autoload": {
         "psr-4": {
