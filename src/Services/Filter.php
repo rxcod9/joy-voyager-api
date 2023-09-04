@@ -50,6 +50,17 @@ class Filter
             return;
         }
 
+        if ($dataType->model_name && $row->field == (app($dataType->model_name))->getKeyName()) {
+            $this->filterByKey(
+                $query,
+                $keyword,
+                $row,
+                $dataType,
+                $request
+            );
+            return;
+        }
+
         if ($row->type == 'select_dropdown' || $row->type == 'radio_btn') {
             $this->filterSelectDropdown(
                 $query,
@@ -106,7 +117,19 @@ class Filter
         DataType $dataType,
         Request $request
     ): void {
-        // @TODO Not implemented yet. Probably radio check if field is null or not
+        $query->when($keyword === '1' || $keyword === 'Yes', function ($query) use ($row, $keyword) {
+            $query->where(function ($query) use ($row, $keyword) {
+                $query
+                    ->whereNotNull($row->field)
+                    ->where($row->field, '!=', config('voyager.user.default_avatar', 'users/default.png'));
+            });
+        })->when($keyword === '0' || $keyword === 'No', function ($query) use ($row, $keyword) {
+            $query->where(function ($query) use ($row, $keyword) {
+                $query
+                    ->whereNull($row->field)
+                    ->orWhere($row->field, config('voyager.user.default_avatar', 'users/default.png'));
+            });
+        });
     }
 
     /**
@@ -122,7 +145,125 @@ class Filter
         DataType $dataType,
         Request $request
     ): void {
+        if (method_exists($this, 'filterRelationship' . Str::studly($row->details->type))) {
+            $this->{'filterRelationship' . Str::studly($row->details->type)}(
+                $query,
+                $keyword,
+                $row,
+                $dataType,
+                $request
+            );
+            return;
+        }
+    }
+
+    /**
+     * Filter belongsTo relationship
+     *
+     * @param Builder|QueryBuilder $query   Query
+     * @param mixed                $keyword Keyword
+     */
+    protected function filterRelationshipBelongsTo(
+        $query,
+        $keyword,
+        DataRow $row,
+        DataType $dataType,
+        Request $request
+    ): void {
+        $keywords = explode(',', $keyword);
+        $query->whereIn($row->details->column, $keywords);
+    }
+
+    /**
+     * Filter hasOne relationship
+     *
+     * @param Builder|QueryBuilder $query   Query
+     * @param mixed                $keyword Keyword
+     */
+    protected function filterRelationshipHasOne(
+        $query,
+        $keyword,
+        DataRow $row,
+        DataType $dataType,
+        Request $request
+    ): void {
         // @TODO Not implemented yet.
+    }
+
+    /**
+     * Filter hasMany relationship
+     *
+     * @param Builder|QueryBuilder $query   Query
+     * @param mixed                $keyword Keyword
+     */
+    protected function filterRelationshipHasMany(
+        $query,
+        $keyword,
+        DataRow $row,
+        DataType $dataType,
+        Request $request
+    ): void {
+        // @TODO Not implemented yet.
+    }
+
+    /**
+     * Filter belongsToMany relationship
+     *
+     * @param Builder|QueryBuilder $query   Query
+     * @param mixed                $keyword Keyword
+     */
+    protected function filterRelationshipBelongsToMany(
+        $query,
+        $keyword,
+        DataRow $row,
+        DataType $dataType,
+        Request $request
+    ): void {
+        $keywords              = explode(',', $keyword);
+        $model                 = $query->getModel();
+        $options               = $row->details;
+        $belongsToManyRelation = $model->belongsToMany($options->model, $options->pivot_table, $options->foreign_pivot_key ?? null, $options->related_pivot_key ?? null, $options->parent_key ?? null, $options->key);
+
+        $query->whereExists(function ($query) use ($model, $belongsToManyRelation, $options, $keywords) {
+            $query->from($options->pivot_table)
+                ->whereColumn($options->pivot_table . '.' . $belongsToManyRelation->getForeignPivotKeyName(), $model->getTable() . '.' . $model->getKeyName())
+                ->whereIn($belongsToManyRelation->getRelatedPivotKeyName(), $keywords);
+        });
+    }
+
+    /**
+     * Filter morphTo relationship
+     *
+     * @param Builder|QueryBuilder $query   Query
+     * @param mixed                $keyword Keyword
+     */
+    protected function filterRelationshipMorphTo(
+        $query,
+        $keyword,
+        DataRow $row,
+        DataType $dataType,
+        Request $request
+    ): void {
+        $peices            = explode(',,', $keyword);
+        $morphToType       = $peices[0] ?? null;
+        $morphToIdKeyword  = $peices[1] ?? null;
+        $morphToIdKeywords = $morphToIdKeyword ? explode(',', $morphToIdKeyword) : null;
+        $options           = $row->details;
+        $typeColumn        = $options->type_column;
+        $column            = $options->column;
+        $types             = $options->types ?? [];
+
+        $query->when(
+            $morphToType && in_array($morphToType, collect($types)->pluck('model')->toArray()),
+            function ($query) use ($typeColumn, $morphToType) {
+                $query->where($typeColumn, $morphToType);
+            }
+        )->when(
+            $morphToIdKeywords,
+            function ($query) use ($column, $morphToIdKeywords) {
+                $query->whereIn($column, $morphToIdKeywords);
+            }
+        );
     }
 
     /**
@@ -138,7 +279,14 @@ class Filter
         DataType $dataType,
         Request $request
     ): void {
-        // @TODO Not implemented yet.
+        $keywords = explode(',', $keyword);
+        $query->where(function ($query) use ($row, $keywords) {
+            foreach ($keywords as $keyword) {
+                $query->orWhere(function ($query) use ($row, $keyword) {
+                    $query->whereJsonContains($row->field . '->' . $keyword, $keyword);
+                });
+            }
+        });
     }
 
     /**
@@ -154,7 +302,14 @@ class Filter
         DataType $dataType,
         Request $request
     ): void {
-        // @TODO Not implemented yet.
+        $keywords = explode(',', $keyword);
+        $query->where(function ($query) use ($row, $keywords) {
+            foreach ($keywords as $keyword) {
+                $query->orWhere(function ($query) use ($row, $keyword) {
+                    $query->whereJsonContains($row->field . '->' . $keyword, $keyword);
+                });
+            }
+        });
     }
 
     /**
@@ -170,7 +325,8 @@ class Filter
         DataType $dataType,
         Request $request
     ): void {
-        $query->whereIn($row->field, $keyword);
+        $keywords = explode(',', $keyword);
+        $query->whereIn($row->field, $keywords);
     }
 
     /**
@@ -186,7 +342,33 @@ class Filter
         DataType $dataType,
         Request $request
     ): void {
-        // @TODO Not implemented yet. Must be range
+        $keywords = explode(',', $keyword);
+        $from     = $keywords[0] ?? null;
+        $to       = $keywords[1] ?? null;
+        if ($from) {
+            $from = safeCarbonParse($from);
+        }
+        if ($to) {
+            $to = safeCarbonParse($to);
+        }
+
+        if (count($keywords) === 1 && $from && isValidCarbon($keyword)) {
+            $query->whereDate($row->field, $from->format('Y-m-d'));
+            return;
+        }
+
+        if (count($keywords) === 2) {
+            $query->when($from && $to, function ($query) use ($row, $from, $to) {
+                $query->whereBetween($row->field, [$from->format('Y-m-d H:i'), $to->format('Y-m-d H:i')]);
+            }, function ($query) use ($row, $from, $to) {
+                $query->when($from, function ($query) use ($row, $from) {
+                    $query->where($row->field, '>=', $from->format('Y-m-d H:i'));
+                })->when($to, function ($query) use ($row, $to) {
+                    $query->where($row->field, '<=', $to->format('Y-m-d H:i'));
+                });
+            });
+            return;
+        }
     }
 
     /**
@@ -218,7 +400,12 @@ class Filter
         DataType $dataType,
         Request $request
     ): void {
-        // @TODO Not implemented yet.
+        $options = $row->details;
+        $query->when($keyword === '1' || $keyword === 'Yes', function ($query) use ($row, $options) {
+            $query->where($row->field, '1')->whereNotNull($row->field);
+        })->when($keyword === '0' || $keyword === 'No', function ($query) use ($row, $options) {
+            $query->where($row->field, '0')->orWhereNull($row->field);
+        });
     }
 
     /**
@@ -272,7 +459,27 @@ class Filter
         DataType $dataType,
         Request $request
     ): void {
-        // @TODO must check range
+        $keywords = explode(',', $keyword);
+        $from     = $keywords[0] ?? null;
+        $to       = $keywords[1] ?? null;
+
+        if (count($keywords) === 1 && $from) {
+            $query->where($row->field, $from);
+            return;
+        }
+
+        if (count($keywords) === 2) {
+            $query->when($from && $to, function ($query) use ($row, $from, $to) {
+                $query->whereBetween($row->field, [$from, $to]);
+            }, function ($query) use ($row, $from, $to) {
+                $query->when($from, function ($query) use ($row, $from) {
+                    $query->where($row->field, '>=', $from);
+                })->when($to, function ($query) use ($row, $to) {
+                    $query->where($row->field, '<=', $to);
+                });
+            });
+            return;
+        }
     }
 
     /**
@@ -310,7 +517,19 @@ class Filter
         DataType $dataType,
         Request $request
     ): void {
-        // @TODO Not implemented yet.
+        $query->when($keyword === '1' || $keyword === 'Yes', function ($query) use ($row) {
+            $query->where(function ($query) use ($row) {
+                $query
+                    ->whereNotNull($row->field)
+                    ->whereJsonLength($row->field, '<>', 0);
+            });
+        })->when($keyword === '0' || $keyword === 'No', function ($query) use ($row) {
+            $query->where(function ($query) use ($row) {
+                $query
+                    ->whereNull($row->field)
+                    ->orWhereJsonLength($row->field, 0);
+            });
+        });
     }
 
     /**
@@ -364,7 +583,11 @@ class Filter
         DataType $dataType,
         Request $request
     ): void {
-        // @TODO Not implemented yet.
+        $query->when($keyword === '1' || $keyword === 'Yes', function ($query) use ($row) {
+            $query->whereNotNull($row->field);
+        })->when($keyword === '0' || $keyword === 'No', function ($query) use ($row) {
+            $query->whereNull($row->field);
+        });
     }
 
     /**
@@ -380,7 +603,19 @@ class Filter
         DataType $dataType,
         Request $request
     ): void {
-        // @TODO Not implemented yet.
+        $query->when($keyword === '1' || $keyword === 'Yes', function ($query) use ($row, $keyword) {
+            $query->where(function ($query) use ($row, $keyword) {
+                $query
+                    ->whereNotNull($row->field)
+                    ->whereJsonLength($row->field, '<>', 0);
+            });
+        })->when($keyword === '0' || $keyword === 'No', function ($query) use ($row, $keyword) {
+            $query->where(function ($query) use ($row, $keyword) {
+                $query
+                    ->whereNull($row->field)
+                    ->orWhereJsonLength($row->field, 0);
+            });
+        });
     }
 
     /**
@@ -425,7 +660,34 @@ class Filter
             return;
         }
 
-        // @FIXME if needs to filter in translations as well
-        $query->where($row->field, 'LIKE', '%' . $keyword . '%');
+        $query->whereTranslation($row->field, 'LIKE', '%' . $keyword . '%');
+    }
+
+    /**
+     * Filter by key
+     *
+     * @param Builder|QueryBuilder $query   Query
+     * @param mixed                $keyword Keyword
+     */
+    protected function filterByKey(
+        $query,
+        $keyword,
+        DataRow $row,
+        DataType $dataType,
+        Request $request
+    ) {
+        $model = app($dataType->model_name);
+        switch ($model->getKeyType()) {
+            case 'int':
+                $query->whereKey((int) $keyword);
+                break;
+            case 'string':
+                $query->whereKey($keyword);
+                break;
+
+            default:
+                // code...
+                break;
+        }
     }
 }

@@ -41,7 +41,7 @@ return [
     | Filters config
     |--------------------------------------------------------------------------
     |
-    | Here you can specify voyager datatable filters settings
+    | Here you can specify voyager api filters settings
     |
     */
     'filters'        => [
@@ -56,4 +56,15 @@ return [
             ]
         ],
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Uuid config
+    |--------------------------------------------------------------------------
+    |
+    | Here you can specify voyager api uuid
+    |
+    */
+
+    'uuid' =>  env('VOYAGER_API_UUID', false),
 ];

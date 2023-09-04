@@ -63,7 +63,7 @@ trait IndexAction
 
                 if ($request->get('showSoftDeleted')) {
                     $showSoftDeleted = true;
-                    $query           = $query->withTrashed();
+                    $query->withTrashed();
                 }
             }
 

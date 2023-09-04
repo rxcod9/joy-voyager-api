@@ -333,7 +333,7 @@ class GenerateDocsCommand extends Command
             'in'       => 'path',
             'required' => true,
             'schema'   => [
-                'type' => 'integer',
+                'type' => config('voyager-api.uuid', false) ? 'string' : 'integer',
             ],
         ];
 
@@ -389,7 +389,7 @@ class GenerateDocsCommand extends Command
             'in'       => 'path',
             'required' => true,
             'schema'   => [
-                'type' => 'integer',
+                'type' => config('voyager-api.uuid', false) ? 'string' : 'integer',
             ],
         ];
 
@@ -496,7 +496,7 @@ class GenerateDocsCommand extends Command
             'in'       => 'path',
             'required' => true,
             'schema'   => [
-                'type' => 'integer',
+                'type' => config('voyager-api.uuid', false) ? 'string' : 'integer',
             ],
         ];
 
@@ -556,7 +556,7 @@ class GenerateDocsCommand extends Command
             'in'       => 'path',
             'required' => true,
             'schema'   => [
-                'type' => 'integer',
+                'type' => config('voyager-api.uuid', false) ? 'string' : 'integer',
             ],
         ];
 
@@ -639,7 +639,7 @@ class GenerateDocsCommand extends Command
             'in'       => 'path',
             'required' => true,
             'schema'   => [
-                'type' => 'integer',
+                'type' => config('voyager-api.uuid', false) ? 'string' : 'integer',
             ],
         ];
 
@@ -695,7 +695,7 @@ class GenerateDocsCommand extends Command
             'in'       => 'path',
             'required' => true,
             'schema'   => [
-                'type' => 'integer',
+                'type' => config('voyager-api.uuid', false) ? 'string' : 'integer',
             ],
         ];
 
@@ -932,71 +932,81 @@ class GenerateDocsCommand extends Command
         ];
 
         switch ($row->type) {
-            case 'text':
+            case 'checkbox':
                 // code...
                 break;
-
-            case 'image':
-                $property['format']      = 'binary';
-                $property['description'] = 'jpg,jpeg,png';
-                break;
-
-            case 'password':
-                $property['type'] = 'password';
-                break;
-
-            case 'select_dropdown':
-                $property['description'] = json_encode($row->details->options ?? [], JSON_PRETTY_PRINT);
-                $property['enum']        = array_keys((array) $row->details->options ?? []);
-                break;
-
-            case 'hidden':
+            case 'color':
                 // code...
                 break;
-
-            case 'number':
-                $property['type'] = 'integer';
-                break;
-
-            case 'timestamp':
-                $property['type']    = 'date-time';
-                $property['pattern'] = '/([0-9]{4})-(?:[0-9]{2})-([0-9]{2}) ([0-9]{2}):([0-9]{2})/';
-                $property['example'] = '2021-05-17 00:00';
-                break;
-
-            case 'relationship':
-                $property['type'] = 'integer';
-                break;
-
-            case 'select_multiple':
-                // code...
-                break;
-
-            case 'rich_text_box':
-                // code...
-                break;
-
             case 'date':
                 $property['type']    = 'date';
                 $property['pattern'] = '/([0-9]{4})-(?:[0-9]{2})-([0-9]{2})/';
                 $property['example'] = '2021-05-17';
                 break;
-
-            case 'checkbox':
-                // code...
-                break;
-
-            case 'text_area':
-                // code...
-                break;
-
-            case 'code_editor':
-                // code...
-                break;
-
             case 'file':
                 $property['format']      = 'binary';
                 $property['description'] = 'doc,docx,pdf';
+                break;
+            case 'image':
+                $property['format']      = 'binary';
+                $property['description'] = 'jpg,jpeg,png';
+                break;
+            case 'multiple_images':
+                // code...
+                break;
+            case 'media_picker':
+                // code...
+                break;
+            case 'number':
+                $property['type'] = 'integer';
+                break;
+            case 'password':
+                $property['type'] = 'password';
+                break;
+            case 'radio_btn':
+                // code...
+                break;
+            case 'select_dropdown':
+                $property['description'] = json_encode($row->details->options ?? [], JSON_PRETTY_PRINT);
+                $property['enum']        = array_keys((array) $row->details->options ?? []);
+                break;
+            case 'select_multiple':
+                // code...
+                break;
+            case 'multiple_checkbox':
+                // code...
+                break;
+            case 'rich_text_box':
+                // code...
+                break;
+            case 'code_editor':
+                // code...
+                break;
+            case 'text':
+                // code...
+                break;
+            case 'text_area':
+                // code...
+                break;
+            case 'markdown_editor':
+                // code...
+                break;
+            case 'time':
+                // code...
+                break;
+            case 'timestamp':
+                $property['type']    = 'date-time';
+                $property['pattern'] = '/([0-9]{4})-(?:[0-9]{2})-([0-9]{2}) ([0-9]{2}):([0-9]{2})/';
+                $property['example'] = '2021-05-17 00:00';
+                break;
+            case 'hidden':
+                // code...
+                break;
+            case 'coordinates':
+                // code...
+                break;
+            case 'relationship':
+                $property['type'] = config('voyager-api.uuid', false) ? 'string' : 'integer';
                 break;
 
             default:
@@ -1051,71 +1061,85 @@ class GenerateDocsCommand extends Command
             ];
 
             switch ($row->type) {
-                case 'text':
+                case 'checkbox':
                     // code...
                     break;
-
-                case 'image':
-                    $property['format']      = 'binary';
-                    $property['description'] = 'jpg,jpeg,png';
-                    break;
-
-                case 'password':
-                    $property['type'] = 'password';
-                    break;
-
-                case 'select_dropdown':
-                    $property['description'] = json_encode($row->details->options ?? [], JSON_PRETTY_PRINT);
-                    $property['enum']        = array_keys((array) $row->details->options ?? []);
-                    break;
-
-                case 'hidden':
+                case 'color':
                     // code...
                     break;
-
-                case 'number':
-                    $property['type'] = 'integer';
-                    break;
-
-                case 'timestamp':
-                    $property['type']    = 'date-time';
-                    $property['pattern'] = '/([0-9]{4})-(?:[0-9]{2})-([0-9]{2}) ([0-9]{2}):([0-9]{2})/';
-                    $property['example'] = '2021-05-17 00:00';
-                    break;
-
-                case 'relationship':
-                    $property['type'] = 'integer';
-                    break;
-
-                case 'select_multiple':
-                    // code...
-                    break;
-
-                case 'rich_text_box':
-                    // code...
-                    break;
-
                 case 'date':
                     $property['type']    = 'date';
                     $property['pattern'] = '/([0-9]{4})-(?:[0-9]{2})-([0-9]{2})/';
                     $property['example'] = '2021-05-17';
                     break;
-
-                case 'checkbox':
-                    // code...
-                    break;
-
-                case 'text_area':
-                    // code...
-                    break;
-
-                case 'code_editor':
-                    // code...
-                    break;
-
                 case 'file':
                     $property['format']      = 'binary';
                     $property['description'] = 'doc,docx,pdf';
+                    break;
+                case 'image':
+                    $property['format']      = 'binary';
+                    $property['description'] = 'jpg,jpeg,png';
+                    break;
+                case 'multiple_images':
+                    // code...
+                    break;
+                case 'media_picker':
+                    // code...
+                    break;
+                case 'number':
+                    $property['type'] = 'integer';
+                    break;
+                case 'password':
+                    $property['type'] = 'password';
+                    break;
+                case 'radio_btn':
+                    // code...
+                    break;
+                case 'select_dropdown':
+                    $property['description'] = json_encode($row->details->options ?? [], JSON_PRETTY_PRINT);
+                    $property['enum']        = array_keys((array) $row->details->options ?? []);
+                    break;
+                case 'select_multiple':
+                    // code...
+                    break;
+                case 'multiple_checkbox':
+                    // code...
+                    break;
+                case 'rich_text_box':
+                    // code...
+                    break;
+                case 'code_editor':
+                    // code...
+                    break;
+                case 'text':
+                    // code...
+                    break;
+                case 'text_area':
+                    // code...
+                    break;
+                case 'markdown_editor':
+                    // code...
+                    break;
+                case 'time':
+                    // code...
+                    break;
+                case 'timestamp':
+                    $property['type']    = 'date-time';
+                    $property['pattern'] = '/([0-9]{4})-(?:[0-9]{2})-([0-9]{2}) ([0-9]{2}):([0-9]{2})/';
+                    $property['example'] = '2021-05-17 00:00';
+                    break;
+                case 'hidden':
+                    // code...
+                    break;
+                case 'coordinates':
+                    // code...
+                    break;
+                case 'relationship':
+                    $property['type'] = config('voyager-api.uuid', false) ? 'string' : 'integer';
+                    break;
+
+                case 'text':
+                    // code...
                     break;
 
                 default:
@@ -1146,8 +1170,7 @@ class GenerateDocsCommand extends Command
 
             if (
                 $row->type === 'relationship' &&
-                $row->details->type !== 'belongsToMany' &&
-                $row->details->type !== 'belongsToJson'
+                $row->details->type === 'belongsTo'
             ) {
                 $parameters[@$row->details->column] = $this->filterRowParemeter($row);
                 continue;
@@ -1173,11 +1196,49 @@ class GenerateDocsCommand extends Command
         ];
 
         switch ($row->type) {
-            case 'text':
+            case 'checkbox':
+                $options = [
+                    '1' => optional(optional($row)->details)->on ?? 'On',
+                    '0' => optional(optional($row)->details)->off ?? 'Off',
+                ];
+                $parameter['name']           = 'filters[' . $row->field . ']';
+                $parameter['schema']['type'] = 'string';
+                $parameter['schema']['enum'] = array_keys((array) $options);
+                // $parameter['explode']    = false;
+                $parameter['description'] = json_encode($options, JSON_PRETTY_PRINT);
+                break;
+            case 'color':
                 // code...
                 break;
-
+            case 'date':
+                $parameter['schema']['type']    = 'string';
+                $parameter['schema']['example'] = '2020-01-01,,2021-06-01';
+                break;
+            case 'file':
+            case 'image':
+            case 'multiple_images':
+            case 'media_picker':
+                $options = [
+                    '1' => 'Yes',
+                    '0' => 'No',
+                ];
+                $parameter['name']           = 'filters[' . $row->field . ']';
+                $parameter['schema']['type'] = 'string';
+                $parameter['schema']['enum'] = array_keys((array) $options);
+                // $parameter['explode']    = false;
+                $parameter['description'] = json_encode($options, JSON_PRETTY_PRINT);
+                break;
+            case 'number':
+                $parameter['schema']['type']    = 'string';
+                $parameter['schema']['example'] = '10,,20';
+                break;
+            case 'password':
+                // code...
+                break;
+            case 'radio_btn':
             case 'select_dropdown':
+            case 'select_multiple':
+            case 'multiple_checkbox':
                 $parameter['name']                    = 'filters[' . $row->field . '][]';
                 $parameter['schema']['type']          = 'array';
                 $parameter['schema']['items']         = [];
@@ -1186,63 +1247,38 @@ class GenerateDocsCommand extends Command
                 // $parameter['explode']    = false;
                 $parameter['description'] = json_encode($row->details->options ?? [], JSON_PRETTY_PRINT);
                 break;
-
-            case 'hidden':
+            case 'rich_text_box':
+            case 'code_editor':
+            case 'text':
+            case 'text_area':
+            case 'markdown_editor':
                 // code...
                 break;
-
-            case 'number':
-                $parameter['schema']['type']    = 'string';
-                $parameter['schema']['example'] = '10,,20';
+            case 'time':
+                // code...
                 break;
-
             case 'timestamp':
                 $parameter['schema']['type']    = 'string';
                 $parameter['schema']['example'] = '2020-01-01 00:00,,2021-06-01 00:00';
+                break;
+            case 'hidden':
+                // code...
+                break;
+            case 'coordinates':
+                // code...
                 break;
 
             case 'relationship':
                 $parameter['name'] = 'filters[' . @$row->field . '][]';
                 if (
                     $row->type === 'relationship' &&
-                    $row->details->type !== 'belongsToMany' &&
-                    $row->details->type !== 'belongsToJson'
+                    $row->details->type === 'belongsTo'
                 ) {
                     $parameter['name'] = 'filters[' . @$row->details->column . '][]';
                 }
                 $parameter['schema']['type']          = 'array';
                 $parameter['schema']['items']         = [];
-                $parameter['schema']['items']['type'] = 'integer';
-                break;
-
-            case 'select_multiple':
-                // code...
-                break;
-
-            case 'rich_text_box':
-                // code...
-                break;
-
-            case 'date':
-                $parameter['schema']['type']    = 'string';
-                $parameter['schema']['example'] = '2020-01-01,,2021-06-01';
-                break;
-
-            case 'checkbox':
-                // code...
-                break;
-
-            case 'text_area':
-                // code...
-                break;
-
-            case 'code_editor':
-                // code...
-                break;
-
-            case 'file':
-                $parameter['schema']['format']      = 'binary';
-                $parameter['schema']['description'] = 'doc,docx,pdf';
+                $parameter['schema']['items']['type'] = config('voyager-api.uuid', false) ? 'string' : 'integer';
                 break;
 
             default:
