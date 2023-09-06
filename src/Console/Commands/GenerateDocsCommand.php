@@ -97,7 +97,7 @@ class GenerateDocsCommand extends Command
     {
         $paths = [];
 
-        foreach (Voyager::model('DataType')::all() as $dataType) {
+        foreach (Voyager::model('DataType')::query()->orderBy('slug')->get() as $dataType) {
             $this->resourcePaths($paths, $dataType);
         }
 
@@ -820,7 +820,7 @@ class GenerateDocsCommand extends Command
     {
         $requestBodies = [];
 
-        foreach (Voyager::model('DataType')::all() as $dataType) {
+        foreach (Voyager::model('DataType')::query()->orderBy('slug')->get() as $dataType) {
             $this->resourceRegisterBodies($requestBodies, $dataType);
         }
 
@@ -1024,7 +1024,7 @@ class GenerateDocsCommand extends Command
     {
         $schemas = [];
 
-        foreach (Voyager::model('DataType')::all() as $dataType) {
+        foreach (Voyager::model('DataType')::query()->orderBy('slug')->get() as $dataType) {
             $this->resourceSchema($schemas, $dataType);
         }
 
