@@ -25,9 +25,9 @@
         "cebe/php-openapi": "^1.5",
         "darkaonline/l5-swagger": "^7.0|^8.0",
         "illuminate/support": "^7|^8|^9|^10",
-        "joy/voyager-api-auth": "^1.0",
-        "joy/voyager-core": "^1.0",
-        "tcg/voyager": "^1.4"
+        "joy/voyager-api-auth": "^1.0|^2.0|^3.0",
+        "joy/voyager-core": "^1.0|^2.0|^3.0",
+        "tcg/voyager": "^1.4|dev-1.6-l10"
     },
     "require-dev": {
         "ext-pdo_sqlite": "*",
